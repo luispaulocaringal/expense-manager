@@ -37,7 +37,8 @@ export default class Login extends Component {
         });
 
         if (r.success) {
-            document.cookie = "adminKey=" + r.data.auth_token;
+            document.cookie = "authToken=" + r.data.auth_token;
+            document.cookie = "accessibility=" + r.data.role_id;
             this.props.history.push("/");
         } else {
             this.setState({ msg: r.data, style: "alert-danger" })

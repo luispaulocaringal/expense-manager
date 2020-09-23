@@ -11,18 +11,18 @@ export default class Home extends Component {
                     </div>
                     <div className="form-group row">
                         <div className="col-md-12">
-                            <div className="card shadow">
+                            <div className="card shadow justify-content-center">
                                 <div className="card-body">
                                     <div className='row'>
                                         <div className='col-md-6'>
                                             <h5 className='font-weight-bold'>My Expenses</h5>
                                         </div>
-                                        <div className='col-md-6'>
+                                        <div className='col-md-6 graph-container justify-content-center'>
                                             <PieChart
-                                                className='px-5'
+                                                className='px-5 mx-auto'
                                                 data={[
-                                                    { title:"Category A", value:500.00, color:"#E38627" },                                           
-                                                    { title:"Category B", value:300.00, color:"#C13C37" },
+                                                    { title:"Category A", value:500.00, color:"#176BA0" },                                           
+                                                    { title:"Category B", value:300.00, color:"#1AC9E6" },
                                                 ]}
                                                 animate
                                                 animationDuration={500}

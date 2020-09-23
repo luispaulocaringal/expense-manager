@@ -1,15 +1,41 @@
 import React, { Component } from 'react';
 import ReactTable from 'react-table';
+import { ExpensesModal } from '../components/modals';
+import { setExpenses } from '../actions';
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
 import 'react-table/react-table.css';
 
-export default class Expenses extends Component {
+class Expenses extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            mode: null,
+            data: {
+                name: '',
+                code: ''
+            },
+            error: {
+                name: false,
+                code: false
+            }
+        }
+    }
+
     render() {
         return (
             <div className="container-fluid bg-white">
                 <div className='container'>
                     <div className="form-group row">
                         <div className="col-md-6"><h4 className="font-weight-bold">Expense Management &gt; Expenses</h4></div>
-                        <div className="col-md-6"><button className='btn btn-primary float-right'><span className='fa fa-plus'></span> Add Expense</button></div>
+                        <div className="col-md-6">
+                            <button className='btn btn-primary float-right'
+                                    data-toggle="modal"
+                                    data-target="#expensesModal"
+                                    onClick={() => this.setState({ mode: "add", data: { name: '', code: '' }, error:{name:false, code:false} })}>
+                                <span className='fa fa-plus'></span> Add Expense
+                            </button>
+                        </div>
                     </div>
                     <div className="form-group row">
                         <div className="col-md-12">
@@ -48,7 +74,24 @@ export default class Expenses extends Component {
                         </div>
                     </div>
                 </div>
+                <ExpensesModal
+                    mode={this.state.mode}
+                    data={this.state.data}
+                    error={this.state.error}
+                    handleChange={(e, target) => this.handleChange(e, target)}
+                    handleError={(target) => this.handleError(target)}
+                />
             </div>
         );
     }
 }
+
+function mapStateToProps(state) {
+    return { expenses: state.expenses };
+}
+
+function mapDispatchToProps(dispatch) {
+    return bindActionCreators({ setExpenses }, dispatch);
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Expenses);

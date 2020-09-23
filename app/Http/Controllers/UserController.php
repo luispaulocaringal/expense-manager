@@ -128,10 +128,7 @@ class UserController extends Controller
         if(!$user){
             $response = ['success'=>false, 'data'=>'Incorrect email or password.'];
         }
-        else if($user->role_id!="administrator"){
-            $response = ['success'=>false, 'data'=>'You are not authorized to access this page.'];
-        }
-        else if($user->role_id=="administrator"){
+        else if($user){
             $response = [
                 'success'=>true, 
                 'data'=>[
@@ -139,6 +136,7 @@ class UserController extends Controller
                     'first_name'=>$user->first_name,
                     'last_name'=>$user->last_name,
                     'email'=>$user->email,
+                    'role_id'=>$user->role_id,
                     'auth_token'=>$user->auth_token,
                     'user_preference'=>$user->user_preference
                 ]

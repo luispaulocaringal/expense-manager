@@ -23,14 +23,14 @@ export default class App extends Component{
     }
 
     requireAuth(page) {
-        if (!this.getCookie("adminKey")) {
+        if (!this.getCookie("authToken")) {
             return <Redirect to="/login" />
         }
         return page
     }
 
     checkAuth(page) {
-        if (this.getCookie("adminKey")) {
+        if (this.getCookie("authToken")) {
             return <Redirect to="/" />
         }
         return page

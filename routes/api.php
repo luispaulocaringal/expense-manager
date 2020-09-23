@@ -20,6 +20,10 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 Route::group(['middleware' => ['jwt.auth','api-header']], function () {
     Route::get('/user/profile', 'UserController@getUserProfile');
+    Route::post('/request/addexpensecategories', 'ExpenseCategoriesController@addExpenseCategories');
+    Route::get('/request/getExpenseCategories', 'ExpenseCategoriesController@getExpenseCategories');
+    Route::put('/request/updateExpenseCategories', 'ExpenseCategoriesController@updateExpenseCategories');
+    Route::delete('/request/deleteExpenseCategories', 'ExpenseCategoriesController@deleteExpenseCategories');
 });
 
 Route::group(['middleware' => 'api-header'], function () {

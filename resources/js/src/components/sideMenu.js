@@ -8,7 +8,66 @@ class SideMenu extends Component {
         super(props);
     }
 
+    getCookie(name) {
+        var re = new RegExp(name + "=([^;]+)");
+        var value = re.exec(document.cookie);
+        return (value != null) ? unescape(value[1]) : null;
+    }
+
     render() {
+        var accessibility = ""
+        if(this.getCookie("accessibility") == "administrator"){
+            accessibility = <div>
+                                <Link
+                                    to={'/'}
+                                    className="nav-link side-menu-link text-dark border-top border-bottom font-weight-bold">
+                                    <i className="fa fa-home w-ico" />Dashboard
+                                </Link>
+                                <span className="nav-link side-menu-link text-dark border-bottom pointer font-weight-bold">
+                                    <i className="fa fa-users w-ico" />User Management
+                                </span>
+                                <Link 
+                                    to={'/roles'}
+                                    className="nav-link side-menu-link text-dark border-bottom pointer">
+                                    <i className="ml-4 fa fa-id-card w-ico" />Roles
+                                </Link>
+                                <Link 
+                                    to={'/users'}
+                                    className="nav-link side-menu-link text-dark border-bottom pointer">
+                                    <i className="ml-4 fa fa-user w-ico" />Users
+                                </Link>
+                                <span className="nav-link side-menu-link text-dark border-bottom pointer font-weight-bold">
+                                    <i className="fa fa-credit-card-alt w-ico" />Expense Management
+                                </span>
+                                <Link 
+                                    to={'/expenseCategories'}
+                                    className="nav-link side-menu-link text-dark border-bottom pointer">
+                                    <i className="ml-4 fa fa-credit-card w-ico" />Expense Categories
+                                </Link>
+                                <Link 
+                                    to={'/expenses'}
+                                    className="nav-link side-menu-link text-dark border-bottom pointer">
+                                    <i className="ml-4 fa fa-money w-ico" />Expenses
+                                </Link>
+                            </div>
+        }
+        else{
+            accessibility = <div>
+                                <Link
+                                    to={'/'}
+                                    className="nav-link side-menu-link text-dark border-top border-bottom font-weight-bold">
+                                    <i className="fa fa-home w-ico" />Dashboard
+                                </Link>
+                                <span className="nav-link side-menu-link text-dark border-bottom pointer font-weight-bold">
+                                    <i className="fa fa-credit-card-alt w-ico" />Expense Management
+                                </span>
+                                <Link 
+                                    to={'/expenses'}
+                                    className="nav-link side-menu-link text-dark border-bottom pointer">
+                                    <i className="ml-4 fa fa-money w-ico" />Expenses
+                                </Link>
+                            </div>
+        }
         return (
             <div className="sidemenu-container">
                 <header className="header-bg-color">
@@ -28,8 +87,8 @@ class SideMenu extends Component {
                                     <img src={`${EXPENSE_MANAGER_API_URL}/storage/uploads/avatars/${this.props.info.image}`} className="user-img rounded-circle" />
                                 </div>
                                 <div>
-                                    <span className="pl-2 font-weight-bold">{this.props.info.first_name + " " + this.props.info.last_name + " "}</span><br/>
-                                    <span className="pl-2 font-weight-bold">({this.props.info.role_id})</span><br/>
+                                    <span className="pl-3 font-weight-bold text-right">{this.props.info.first_name + " " + this.props.info.last_name + " "}</span><br/>
+                                    <span className="pl-3 font-weight-bold text-right">({this.props.info.role_id})</span><br/>
                                 </div>                
                             </div> : ""
                         }
@@ -37,37 +96,7 @@ class SideMenu extends Component {
                 </div>
                 <div className="row">
                     <div className="col">
-                        <Link
-                            to={'/'}
-                            className="nav-link side-menu-link text-dark border-top border-bottom font-weight-bold">
-                            <i className="fa fa-home w-ico" />Dashboard
-                        </Link>
-                        <span className="nav-link side-menu-link text-dark border-bottom pointer font-weight-bold">
-                            <i className="fa fa-users w-ico" />User Management
-                        </span>
-                        <Link 
-                            to={'/roles'}
-                            className="nav-link side-menu-link text-dark border-bottom pointer">
-                            <i className="ml-4 fa fa-id-card w-ico" />Roles
-                        </Link>
-                        <Link 
-                            to={'/users'}
-                            className="nav-link side-menu-link text-dark border-bottom pointer">
-                            <i className="ml-4 fa fa-user w-ico" />Users
-                        </Link>
-                        <span className="nav-link side-menu-link text-dark border-bottom pointer font-weight-bold">
-                            <i className="fa fa-credit-card-alt w-ico" />Expense Management
-                        </span>
-                        <Link 
-                            to={'/expenseCategories'}
-                            className="nav-link side-menu-link text-dark border-bottom pointer">
-                            <i className="ml-4 fa fa-credit-card w-ico" />Expense Categories
-                        </Link>
-                        <Link 
-                            to={'/expenses'}
-                            className="nav-link side-menu-link text-dark border-bottom pointer">
-                            <i className="ml-4 fa fa-money w-ico" />Expenses
-                        </Link>
+                        {accessibility}
                     </div>
                 </div>
             </div>

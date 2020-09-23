@@ -3,8 +3,8 @@ import Axios from 'axios';
 import { Link } from "react-router-dom";
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { setInfo } from '../actions';
-import { EXPENSE_MANAGER_API_URL } from '../config';
+import { setInfo, logout } from '../actions';
+import { EXPENSE_MANAGER_API_URL, JWT_AUTHORIZATION } from '../config';
 
 class NavBar extends Component {
     constructor(props) {
@@ -16,7 +16,8 @@ class NavBar extends Component {
     };
 
     logout() {
-        this.deleteCookie("adminKey");
+        this.props.logout()
+        this.deleteCookie("authToken");
         this.props.history.push("/login");
     }
 
@@ -27,13 +28,16 @@ class NavBar extends Component {
     }
 
     async componentDidMount() {
-        const response = await Axios.get(`${EXPENSE_MANAGER_API_URL}/api/user/profile?token=${this.getCookie("adminKey")}`)
+        var JWT_AUTHORIZATION = {
+            headers: {'Authorization': "Bearer " + this.getCookie("authToken")}
+        }
+        const response = await Axios.get(`${EXPENSE_MANAGER_API_URL}/api/user/profile`,JWT_AUTHORIZATION)
             .then(function (response) {
                 return response.data;
             }).catch(function (error) {
                 console.log(error);
             });
-        console.log(response)
+
         this.props.setInfo({ first_name: response.first_name, last_name: response.last_name, image: response.image, role_id: response.role_id })
     }
 
@@ -71,7 +75,7 @@ function mapStateToProps(state) {
 }
 
 function mapDispatchToProps(dispatch) {
-    return bindActionCreators({ setInfo }, dispatch);
+    return bindActionCreators({ setInfo, logout }, dispatch);
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(NavBar);

@@ -1,35 +1,34 @@
-export const SET_PREFERENCE = 'SET_PREFERENCE';
-export const SET_PLACE = 'SET_PLACE';
+export const SET_EXPENSES = 'SET_EXPENSES';
+export const SET_EXPENSE_CATEGORIES = 'SET_EXPENSE_CATEGORIES';
 export const USER_LOGOUT = 'USER_LOGOUT ';
-export const SET_PLACE_STATS = 'SET_PLACE_STATS';
-export const SET_PREFERENCE_STATS = 'SET_PREFERENCE_STATS';
+export const SET_USERS = 'SET_USERS';
+export const SET_ROLES = 'SET_ROLES';
 export const SET_INFO = 'SET_INFO';
-export const SET_MARKER = 'SET_MARKER';
 
-export function setPreferences(request) {
+export function setExpenses(request) {
     return {
-        type: SET_PREFERENCE,
+        type: SET_EXPENSES,
         payload: request
     };
 }
 
-export function setPlace(request) {
+export function setExpenseCategories(request) {
     return {
-        type: SET_PLACE,
+        type: SET_EXPENSE_CATEGORIES,
         payload: request
     };
 }
 
-export function setPlaceStats(request) {
+export function setUsers(request) {
     return {
-        type: SET_PLACE_STATS,
+        type: SET_USERS,
         payload: request
     };
 }
 
-export function setPreferenceStats(request) {
+export function setRoles(request) {
     return {
-        type: SET_PREFERENCE_STATS,
+        type: SET_ROLES,
         payload: request
     };
 }
@@ -37,13 +36,6 @@ export function setPreferenceStats(request) {
 export function setInfo(request) {
     return {
         type: SET_INFO,
-        payload: request
-    };
-}
-
-export function setMarker(request) {
-    return {
-        type: SET_MARKER,
         payload: request
     };
 }
