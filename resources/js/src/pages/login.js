@@ -21,10 +21,10 @@ export default class Login extends Component {
         this.setState({ user });
     }
 
-    /*async login(e) {
+    async login(e) {
         e.preventDefault();
 
-        const r = await Axios.post(`${EXPENSE_MANAGER_API_URL}/api/admin/login`, {
+        const r = await Axios.post(`${EXPENSE_MANAGER_API_URL}/api/user/login`, {
             'email': this.state.user.email,
             'password': this.state.user.password
         }).then(function (r) {
@@ -44,7 +44,7 @@ export default class Login extends Component {
             this.handleChange("", "email")
             this.handleChange("", "password")
         }
-    }*/
+    }
 
     render() {
         return (

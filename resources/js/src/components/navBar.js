@@ -26,16 +26,16 @@ class NavBar extends Component {
         return (value != null) ? unescape(value[1]) : null;
     }
 
-    /*async componentDidMount() {
+    async componentDidMount() {
         const response = await Axios.get(`${EXPENSE_MANAGER_API_URL}/api/user/profile?token=${this.getCookie("adminKey")}`)
             .then(function (response) {
                 return response.data;
             }).catch(function (error) {
                 console.log(error);
             });
-
+        console.log(response)
         this.props.setInfo({ first_name: response.first_name, last_name: response.last_name, image: response.image })
-    }*/
+    }
 
     render() {
         return (
@@ -50,7 +50,7 @@ class NavBar extends Component {
                                         className="nav-link dropdown-toggle text-white font-weight-bold"
                                         id="navbarDropdown"
                                         data-toggle="dropdown">
-                                        {this.props.info ? this.props.info.first_name + " " + this.props.info.last_name + " " : ""}
+                                        Hello, {this.props.info ? this.props.info.first_name + " " + this.props.info.last_name + " " : ""}
                                     </a>
                                     <div className="dropdown-menu" aria-labelledby="navbarDropdown">
                                         <Link to={'/account'} className="dropdown-item">Account Settings</Link>
