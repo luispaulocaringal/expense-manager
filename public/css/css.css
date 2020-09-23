@@ -1,0 +1,123 @@
+.navbar-laravel {
+    background-color: #fff;
+    -webkit-box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
+  }
+  
+  .side-menu-title {
+    font-family: "Montserrat";
+  }
+  
+  .login-input {
+    border-radius: 25px;
+    border: 2px solid #1f5e89;
+  }
+  
+  .login-btn {
+    background-color: #1f5e89 !important;
+    border-radius: 25px;
+    color: white;
+  }
+  
+  .header-bg-color {
+    background-color: #1f5e89;
+  }
+  
+  .sidemenu-container {
+    height: 100vh;
+    min-width: 250px;
+    background-color: #f5fbfe;
+  }
+  
+  .side-menu-link {
+    background-color: #e4f4fe;
+  }
+  
+  .navbar-bg {
+    background-color: #2975a9;
+  }
+  
+  .container-bg {
+    background-color: #e4f4fe;
+    border-radius: 10px !important;
+  }
+  
+  .preference-title {
+    font-weight: bold;
+    font-size: 20pt;
+  }
+  
+  .edit-delete-preference-btn {
+    border-radius: 25px;
+  }
+  
+  .add-preference-btn {
+    border-radius: 25px;
+    background-color: #2975a9;
+    font-weight: bold;
+  }
+  
+  .add-preference-btn:hover {
+    background-color: #2975a9;
+  }
+  
+  .user-img {
+    width: 50px;
+    height: 50px;
+  }
+  
+  .main-container {
+    height: 100vh;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+            flex-direction: column;
+  }
+  
+  .main {
+    -webkit-box-flex: 1;
+        -ms-flex-positive: 1;
+            flex-grow: 1;
+    overflow-y: scroll;
+  }
+  
+  .w-ico {
+    width: 25px;
+  }
+  
+  .search-result {
+    position: absolute;
+    left: 0;
+    right: 0;
+    z-index: 1;
+  }
+  
+  .pointer {
+    cursor: pointer;
+  }
+  
+  .right-border {
+    border-right: 1px solid black;
+  }
+  
+  .avatar-container {
+    border-radius: 50%;
+    border: 10px solid #ced4da;
+    height: 200px;
+    width: 200px;
+    background-size: cover;
+  }
+  
+  .avatar-edit {
+    background-color: rgba(0, 0, 0, 0.5);
+    border-radius: 50%;
+    height: 100%;
+    width: 100%;
+  }
+  
+  label {
+    font-size: 0.89rem;
+  }
