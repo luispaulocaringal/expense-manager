@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import { Route } from 'react-router-dom';
+import { Router, Route, Switch } from 'react-router-dom';
 import { NavBar, SideMenu } from '../components';
-import { Home } from './index';
+import { Home, Roles, Users, Expenses, ExpenseCategories } from './index';
 
 export default class Main extends Component {
     constructor(props) {
@@ -22,7 +22,10 @@ export default class Main extends Component {
                     <div className="main-container">
                         <NavBar history={this.props.history} />
                         <div className="main py-4">
-                            <Route exact path='/account' render={() => <Account />} />
+                            <Route exact path='/expenses' render={() => <Expenses />} />
+                            <Route exact path='/expenseCategories' render={() => <ExpenseCategories />} />
+                            <Route exact path='/users' render={() => <Users />} />
+                            <Route exact path='/roles' render={() => <Roles />} />
                             <Route exact path='/' render={() => <Home />} />
                         </div>
                     </div>

@@ -34,7 +34,7 @@ class NavBar extends Component {
                 console.log(error);
             });
         console.log(response)
-        this.props.setInfo({ first_name: response.first_name, last_name: response.last_name, image: response.image })
+        this.props.setInfo({ first_name: response.first_name, last_name: response.last_name, image: response.image, role_id: response.role_id })
     }
 
     render() {

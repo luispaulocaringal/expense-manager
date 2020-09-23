@@ -121,3 +121,7 @@
   label {
     font-size: 0.89rem;
   }
+
+  .min-height{
+    height: 500px;
+  }

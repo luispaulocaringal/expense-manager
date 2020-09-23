@@ -23,9 +23,14 @@ class SideMenu extends Component {
                 <div className="row px-4 py-4">
                     <div className="col">
                         {this.props.info ?
-                            <div>
-                                <img src={`${EXPENSE_MANAGER_API_URL}/storage/uploads/avatars/${this.props.info.image}`} className="user-img rounded-circle" />
-                                <span className="pl-2 font-weight-bold">{this.props.info.first_name + " " + this.props.info.last_name + " "}</span>
+                            <div className='row justify-content-center'>
+                                <div>
+                                    <img src={`${EXPENSE_MANAGER_API_URL}/storage/uploads/avatars/${this.props.info.image}`} className="user-img rounded-circle" />
+                                </div>
+                                <div>
+                                    <span className="pl-2 font-weight-bold">{this.props.info.first_name + " " + this.props.info.last_name + " "}</span><br/>
+                                    <span className="pl-2 font-weight-bold">({this.props.info.role_id})</span><br/>
+                                </div>                
                             </div> : ""
                         }
                     </div>
@@ -37,24 +42,32 @@ class SideMenu extends Component {
                             className="nav-link side-menu-link text-dark border-top border-bottom font-weight-bold">
                             <i className="fa fa-home w-ico" />Dashboard
                         </Link>
-                        <span className="nav-link side-menu-link text-dark border-bottom pointer font-weight-bold" onClick={() => window.open("https://console.cloud.google.com/home/dashboard?project=capstone-1536465189447")}>
+                        <span className="nav-link side-menu-link text-dark border-bottom pointer font-weight-bold">
                             <i className="fa fa-users w-ico" />User Management
                         </span>
-                        <span className="nav-link side-menu-link text-dark border-bottom pointer" onClick={() => window.open("https://gitlab.com/johngideonsenga/capstone")}>
+                        <Link 
+                            to={'/roles'}
+                            className="nav-link side-menu-link text-dark border-bottom pointer">
                             <i className="ml-4 fa fa-id-card w-ico" />Roles
-                        </span>
-                        <span className="nav-link side-menu-link text-dark border-bottom pointer" onClick={() => window.open("#")}>
+                        </Link>
+                        <Link 
+                            to={'/users'}
+                            className="nav-link side-menu-link text-dark border-bottom pointer">
                             <i className="ml-4 fa fa-user w-ico" />Users
-                        </span>
-                        <span className="nav-link side-menu-link text-dark border-bottom pointer font-weight-bold" onClick={() => window.open("https://manager.linode.com/linodes/dashboard/linode12337995")}>
+                        </Link>
+                        <span className="nav-link side-menu-link text-dark border-bottom pointer font-weight-bold">
                             <i className="fa fa-credit-card-alt w-ico" />Expense Management
                         </span>
-                        <span className="nav-link side-menu-link text-dark border-bottom pointer" onClick={() => window.open("http://www.kabyahe.com/phpmyadmin/")}>
+                        <Link 
+                            to={'/expenseCategories'}
+                            className="nav-link side-menu-link text-dark border-bottom pointer">
                             <i className="ml-4 fa fa-credit-card w-ico" />Expense Categories
-                        </span>
-                        <span className="nav-link side-menu-link text-dark border-bottom pointer" onClick={() => window.open("http://www.kabyahe.com/phpmyadmin/")}>
+                        </Link>
+                        <Link 
+                            to={'/expenses'}
+                            className="nav-link side-menu-link text-dark border-bottom pointer">
                             <i className="ml-4 fa fa-money w-ico" />Expenses
-                        </span>
+                        </Link>
                     </div>
                 </div>
             </div>
