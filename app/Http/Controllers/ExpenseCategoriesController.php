@@ -35,16 +35,11 @@ class ExpenseCategoriesController extends Controller
 
     public function getExpenseCategories(){
         $user = User::Auth();
-        if($user->role_id=="administrator"){
-            $expenseCategories = ExpenseCategories::all();
-            $response = [
-                'success' => true,
-                'data' => $expenseCategories
-            ];
-        }
-        else if($user->role_id!="administrator"){
-            $response = ['success'=>false, 'data'=>'You are not authorized to access this data'];
-        }
+        $expenseCategories = ExpenseCategories::all();
+        $response = [
+            'success' => true,
+            'data' => $expenseCategories
+        ];
         return $response; 
     }
 

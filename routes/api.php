@@ -24,6 +24,8 @@ Route::group(['middleware' => ['jwt.auth','api-header']], function () {
     Route::get('/request/getExpenseCategories', 'ExpenseCategoriesController@getExpenseCategories');
     Route::put('/request/updateExpenseCategories', 'ExpenseCategoriesController@updateExpenseCategories');
     Route::delete('/request/deleteExpenseCategories', 'ExpenseCategoriesController@deleteExpenseCategories');
+    Route::post('/request/addExpenses', 'ExpensesController@addExpenses');
+    Route::get('/request/getExpenses', 'ExpensesController@getExpenses');
 });
 
 Route::group(['middleware' => 'api-header'], function () {

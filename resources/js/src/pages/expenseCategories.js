@@ -95,7 +95,7 @@ class ExpenseCategories extends Component {
                                     className: 'px-3',
                                     filterable: true
                                 }, {
-                                    Header: 'Time Created',
+                                    Header: 'Created At',
                                     accessor: 'created_at',
                                     headerClassName: 'font-weight-bold',
                                     className: 'px-3',
@@ -110,14 +110,14 @@ class ExpenseCategories extends Component {
                                                 data-toggle="modal"
                                                 data-target="#expenseCategoriesModal"
                                                 className="btn btn-secondary edit-delete-preference-btn mx-1 py-1"
-                                                onClick={() => this.setState({ mode: "edit", data: props.row, error:{name:false, code:false} })}>
+                                                onClick={() => this.setState({ mode: "edit", data: props.row, error:{expenses_category_name:false, expenses_category_description:false} })}>
                                                 <i className="fa fa-edit mr-2" />Edit
                                             </button>
                                             <button
                                                 data-toggle="modal"
                                                 data-target="#expenseCategoriesModal"
                                                 className="btn btn-danger edit-delete-preference-btn mx-1 py-1"
-                                                onClick={() => this.setState({ mode: "delete", data: props.row, error:{name:false, code:false} })}>
+                                                onClick={() => this.setState({ mode: "delete", data: props.row, error:{expenses_category_name:false, expenses_category_description:false} })}>
                                                 <i className="fa fa-trash mr-2" />Delete
                                             </button>
                                         </div >

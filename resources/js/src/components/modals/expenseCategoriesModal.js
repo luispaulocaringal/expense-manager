@@ -141,7 +141,7 @@ class ExpenseCategoriesModal extends Component {
             submit = () => this.add();
         }
         else if (mode == "edit") {
-            title = "Edit Preference";
+            title = "Edit Expense Category";
             label = "Update";
             msg = null;
             isDisabled = false;
@@ -149,9 +149,9 @@ class ExpenseCategoriesModal extends Component {
             submit = () => this.update();
         }
         else if (mode == "delete") {
-            title = "Delete Preference";
+            title = "Delete Expense Category";
             label = "Delete";
-            msg = "Are you sure you want to delete this preference?"
+            msg = "Are you sure you want to delete this Category?"
             isDisabled = true;
             btnStyle = "btn btn-danger"
             submit = () => this.delete();
@@ -172,6 +172,11 @@ class ExpenseCategoriesModal extends Component {
                                 {msg ?
                                     <div>
                                         <p>{msg}</p>
+                                    </div> : null
+                                }
+                                {this.props.error.expenses_category_name || this.props.error.expenses_category_description ?
+                                    <div>
+                                        <p>Please fill up required fields</p>
                                     </div> : null
                                 }
                                 <div>

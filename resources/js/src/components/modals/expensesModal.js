@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import Axios from 'axios';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { setExpenses } from '../../actions';
+import { setExpenses, setExpenseCategories } from '../../actions';
 import { EXPENSE_MANAGER_API_URL } from '../../config';
 //import NotificationSystem from 'react-notification-system';
 
@@ -25,15 +25,36 @@ class ExpensesModal extends Component {
         return (value != null) ? unescape(value[1]) : null;
     }
 
-    async setExpenses() {
-        const preferences = await Axios.get(`${EXPENSE_MANAGER_API_URL}/api/preference/all?token=${this.getCookie("adminKey")}`)
+    async setExpenseCategories() {
+        var JWT_AUTHORIZATION = {
+            headers: {'Authorization': "Bearer " + this.getCookie("authToken")}
+        }
+        const expenseCategories = await Axios.get(`${EXPENSE_MANAGER_API_URL}/api/request/getExpenseCategories`,JWT_AUTHORIZATION)
             .then(function (response) {
-                return response.data;
+                return response.data.data;
             }).catch(function (error) {
                 console.log(error);
             });
 
-        this.props.setExpenses(preferences)
+        this.props.setExpenseCategories(expenseCategories)
+    }
+
+    componentDidMount() {
+        this.setExpenseCategories();
+    }
+
+    async setExpenses() {
+        var JWT_AUTHORIZATION = {
+            headers: {'Authorization': "Bearer " + this.getCookie("authToken")}
+        }
+        const expenses = await Axios.get(`${EXPENSE_MANAGER_API_URL}/api/request/getExpenses`,JWT_AUTHORIZATION)
+            .then(function (response) {
+                return response.data.data;
+            }).catch(function (error) {
+                console.log(error);
+            });
+
+        this.props.setExpenses(expenses)
     }
 
     isEmpty(str) {
@@ -43,10 +64,16 @@ class ExpensesModal extends Component {
     }
 
     async add() {
-        const r = await Axios.post(`${KABYAHE_API_URL}/api/preference/add?token=${this.getCookie("adminKey")}`, {
-            'name': this.props.data.name,
-            'code': this.props.data.code
-        }).then(function (r) {
+        var randomColor = require('randomcolor'); 
+        var JWT_AUTHORIZATION = {
+            headers: {'Authorization': "Bearer " + this.getCookie("authToken")}
+        }
+        const r = await Axios.post(`${EXPENSE_MANAGER_API_URL}/api/request/addExpenses`, {
+            'expenses_category_id': this.props.data.expenses_category_id,
+            'amount': this.props.data.amount,
+            'entry_date': this.props.data.entry_date,
+            'chart_color':randomColor()
+        },JWT_AUTHORIZATION).then(function (r) {
             return r.data;
         }).catch(function () {
             return { success: false }
@@ -54,15 +81,16 @@ class ExpensesModal extends Component {
 
         if (r.success) {
             this.setExpenses();
-            this.getPreferencesCount();
-            this.addPreferenceNotification("success", "A new preference has been successfully added.");
-            $('#preferenceModal').modal('hide')
+            //this.addPreferenceNotification("success", "A new preference has been successfully added.");
+            $('#expensesModal').modal('hide')
         } else {
-            if (this.isEmpty(this.props.data.name))
-                this.props.handleError("name")
-            if (this.isEmpty(this.props.data.code))
-                this.props.handleError("code")
-            this.addPreferenceNotification("error", "Please fill out all the required fields.");
+            if (this.isEmpty(this.props.data.expenses_category_id))
+                this.props.handleError("expenses_category_id")
+            if (this.isEmpty(this.props.data.amount))
+                this.props.handleError("amount")
+            if (this.isEmpty(this.props.data.entry_date))
+                this.props.handleError("entry_date")
+            //this.addPreferenceNotification("error", "Please fill out all the required fields.");
         }
     }
 
@@ -123,7 +151,7 @@ class ExpensesModal extends Component {
         let isDisabled = null;
         let btnStyle = null;
         if (mode == "add") {
-            title = "Add New Preference";
+            title = "Add New Expense";
             label = "Add";
             msg = null;
             isDisabled = false;
@@ -131,7 +159,7 @@ class ExpensesModal extends Component {
             submit = () => this.add();
         }
         else if (mode == "edit") {
-            title = "Edit Preference";
+            title = "Edit Expense";
             label = "Update";
             msg = null;
             isDisabled = false;
@@ -139,14 +167,22 @@ class ExpensesModal extends Component {
             submit = () => this.update();
         }
         else if (mode == "delete") {
-            title = "Delete Preference";
+            title = "Delete Expense";
             label = "Delete";
-            msg = "Are you sure you want to delete this preference?"
+            msg = "Are you sure you want to delete this expense?"
             isDisabled = true;
             btnStyle = "btn btn-danger"
             submit = () => this.delete();
         }
 
+        let expenseCategoriesChoices = []
+        if(this.props.expenseCategories != null){
+            expenseCategoriesChoices.push(<option key={0}>Select one...</option>)
+            for(var i = 0; i < this.props.expenseCategories.length; i++){
+                expenseCategoriesChoices.push(<option key={this.props.expenseCategories[i].id} value={this.props.expenseCategories[i].id}>{this.props.expenseCategories[i]['expenses_category_name']}</option>)
+            }
+        }
+        console.log(this.props.data)
         return (
             <div>
                 <div className="modal fade" id="expensesModal" tabIndex="-1" role="dialog" aria-labelledby="expensesModal" aria-hidden="true">
@@ -165,20 +201,31 @@ class ExpensesModal extends Component {
                                     </div> : null
                                 }
                                 <div>
-                                    <label>Display Name <span className="text-danger">*</span></label>
-                                    <input
+                                    <label>Expense Category <span className="text-danger">*</span></label>
+                                    <select
                                         disabled={isDisabled}
-                                        value={this.props.data.name}
-                                        className={`form-control d-block w-100 ${this.props.error.name ? "border-danger" : ""}`}
-                                        onChange={(e) => this.props.handleChange(e.target.value, "name")} />
+                                        value={this.props.data.expenses_category_id}
+                                        className={`form-control d-block w-100 ${this.props.error.expenses_category_id ? "border-danger" : ""}`}
+                                        onChange={(e) => this.props.handleChange(e.target.value, "expenses_category_id")}>
+                                        {expenseCategoriesChoices}
+                                    </select>
                                 </div>
                                 <div className="mt-3">
-                                    <label>Preference Code <span className="text-danger">*</span></label>
+                                    <label>Amount <span className="text-danger">*</span></label>
                                     <input
                                         disabled={isDisabled}
-                                        value={this.props.data.code}
-                                        className={`form-control d-block w-100 ${this.props.error.code ? "border-danger" : ""}`}
-                                        onChange={(e) => this.props.handleChange(e.target.value, "code")} />
+                                        value={this.props.data.amount}
+                                        className={`form-control d-block w-100 ${this.props.error.amount ? "border-danger" : ""}`}
+                                        onChange={(e) => this.props.handleChange(e.target.value, "amount")} />
+                                </div>
+                                <div className="mt-3">
+                                    <label>Entry Date <span className="text-danger">*</span></label>
+                                    <input
+                                        type={'date'}
+                                        disabled={isDisabled}
+                                        value={this.props.data.entry_date}
+                                        className={`form-control d-block w-100 ${this.props.error.entry_date ? "border-danger" : ""}`}
+                                        onChange={(e) => this.props.handleChange(e.target.value, "entry_date")} />
                                 </div>
                             </div>
                             <div className="modal-footer">
@@ -191,10 +238,14 @@ class ExpensesModal extends Component {
             </div>
         );
     }
+} 
+
+function mapStateToProps(state) {
+    return { expenseCategories: state.expenseCategories };
 }
 
 function mapDispatchToProps(dispatch) {
-    return bindActionCreators({ setExpenses }, dispatch);
+    return bindActionCreators({ setExpenses, setExpenseCategories }, dispatch);
 }
 
-export default connect(null, mapDispatchToProps)(ExpensesModal);
+export default connect(mapStateToProps, mapDispatchToProps)(ExpensesModal);
