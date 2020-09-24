@@ -25,15 +25,18 @@ class RolesModal extends Component {
         return (value != null) ? unescape(value[1]) : null;
     }
 
-    async setExpenses() {
-        const preferences = await Axios.get(`${EXPENSE_MANAGER_API_URL}/api/preference/all?token=${this.getCookie("adminKey")}`)
+    async setRoles() {
+        var JWT_AUTHORIZATION = {
+            headers: {'Authorization': "Bearer " + this.getCookie("authToken")}
+        }
+        const roles = await Axios.get(`${EXPENSE_MANAGER_API_URL}/api/request/getRoles`,JWT_AUTHORIZATION)
             .then(function (response) {
-                return response.data;
+                return response.data.data;
             }).catch(function (error) {
                 console.log(error);
             });
 
-        this.props.setExpenses(preferences)
+        this.props.setRoles(roles)
     }
 
     isEmpty(str) {
@@ -43,70 +46,78 @@ class RolesModal extends Component {
     }
 
     async add() {
-        const r = await Axios.post(`${KABYAHE_API_URL}/api/preference/add?token=${this.getCookie("adminKey")}`, {
-            'name': this.props.data.name,
-            'code': this.props.data.code
-        }).then(function (r) {
+        var JWT_AUTHORIZATION = {
+            headers: {'Authorization': "Bearer " + this.getCookie("authToken")}
+        }
+        
+        const r = await Axios.post(`${EXPENSE_MANAGER_API_URL}/api/request/addRoles`, {
+            'role_id': this.props.data.role_id,
+            'role_desc': this.props.data.role_desc
+        },JWT_AUTHORIZATION).then(function (r) {
             return r.data;
         }).catch(function () {
             return { success: false }
         });
 
         if (r.success) {
-            this.setExpenses();
-            this.getPreferencesCount();
-            this.addPreferenceNotification("success", "A new preference has been successfully added.");
-            $('#preferenceModal').modal('hide')
+            this.setRoles();
+            //this.addPreferenceNotification("success", "A new preference has been successfully added.");
+            $('#rolesModal').modal('hide')
         } else {
-            if (this.isEmpty(this.props.data.name))
-                this.props.handleError("name")
-            if (this.isEmpty(this.props.data.code))
-                this.props.handleError("code")
-            this.addPreferenceNotification("error", "Please fill out all the required fields.");
+            if (!r.success)
+                console.log(r.message)
+            if (this.isEmpty(this.props.data.role_id))
+                this.props.handleError("role_id")
+            if (this.isEmpty(this.props.data.role_desc))
+                this.props.handleError("role_desc")
+            //this.addPreferenceNotification("error", "Please fill out all the required fields.");
         }
     }
 
     async update() {
-        const url = `${KABYAHE_API_URL}/api/preference/update?token=${this.getCookie("adminKey")}&preferenceid=${this.props.data.id}`;
+        var JWT_AUTHORIZATION = {
+            headers: {'Authorization': "Bearer " + this.getCookie("authToken")}
+        }
+        const url = `${EXPENSE_MANAGER_API_URL}/api/request/updateRoles?roleid=${this.props.data.id}`;
         const r = await Axios.put(url, {
-            'name': this.props.data.name,
-            'code': this.props.data.code,
-            'active': this.props.data.active
-        }).then(function (r) {
+            'role_id': this.props.data.role_id,
+            'role_desc': this.props.data.role_desc
+        },JWT_AUTHORIZATION).then(function (r) {
             return r.data;
         }).catch(function () {
             return { success: false }
         });
-
+        
         if (r.success) {
-            this.setExpenses();
-            this.addPreferenceNotification("success", "A preference has been successfully updated.");
-            $('#preferenceModal').modal('hide')
+            this.setRoles();
+            //this.addPreferenceNotification("success", "A preference has been successfully updated.");
+            $('#rolesModal').modal('hide')
         } else {
-            if (this.isEmpty(this.props.data.name))
-                this.props.handleError("name")
-            if (this.isEmpty(this.props.data.code))
-                this.props.handleError("code")
-            this.addPreferenceNotification("error", "Please fill out all the required fields.");
+            if (this.isEmpty(this.props.data.role_id))
+                this.props.handleError("role_id")
+            if (this.isEmpty(this.props.data.role_desc))
+                this.props.handleError("role_desc")
+            //this.addPreferenceNotification("error", "Please fill out all the required fields.");
         }
     }
 
     async delete() {
-        const url = `${KABYAHE_API_URL}/api/preference/delete?token=${this.getCookie("adminKey")}&preferenceid=${this.props.data.id}`;
-        const r = await Axios.delete(url)
+        var JWT_AUTHORIZATION = {
+            headers: {'Authorization': "Bearer " + this.getCookie("authToken")}
+        }
+        const url = `${EXPENSE_MANAGER_API_URL}/api/request/deleteRoles?roleid=${this.props.data.id}`;
+        const r = await Axios.delete(url,JWT_AUTHORIZATION)
             .then(function (r) {
                 return r.data;
             }).catch(function () {
                 return { success: false }
             });
-
         if (r.success) {
-            this.setExpenses();
-            this.getPreferencesCount();
-            this.addPreferenceNotification("success", "A preference has been successfully deleted.");
-            $('#preferenceModal').modal('hide')
+            this.setRoles();
+            //this.addPreferenceNotification("success", "A preference has been successfully deleted.");
+            $('#rolesModal').modal('hide')
         } else {
-            this.addPreferenceNotification("error", "There has been an error processing your request.");
+            //this.addPreferenceNotification("error", "There has been an error processing your request.");
         }
     }
 
@@ -123,7 +134,7 @@ class RolesModal extends Component {
         let isDisabled = null;
         let btnStyle = null;
         if (mode == "add") {
-            title = "Add New Preference";
+            title = "Add New Role";
             label = "Add";
             msg = null;
             isDisabled = false;
@@ -131,7 +142,7 @@ class RolesModal extends Component {
             submit = () => this.add();
         }
         else if (mode == "edit") {
-            title = "Edit Preference";
+            title = "Edit Role";
             label = "Update";
             msg = null;
             isDisabled = false;
@@ -139,9 +150,9 @@ class RolesModal extends Component {
             submit = () => this.update();
         }
         else if (mode == "delete") {
-            title = "Delete Preference";
+            title = "Delete Role";
             label = "Delete";
-            msg = "Are you sure you want to delete this preference?"
+            msg = "Are you sure you want to delete this role?"
             isDisabled = true;
             btnStyle = "btn btn-danger"
             submit = () => this.delete();
@@ -164,21 +175,26 @@ class RolesModal extends Component {
                                         <p>{msg}</p>
                                     </div> : null
                                 }
+                                {this.props.error.role_id || this.props.error.role_desc ?
+                                    <div>
+                                        <p>Please fill up required fields</p>
+                                    </div> : null
+                                }
                                 <div>
                                     <label>Display Name <span className="text-danger">*</span></label>
                                     <input
                                         disabled={isDisabled}
-                                        value={this.props.data.name}
-                                        className={`form-control d-block w-100 ${this.props.error.name ? "border-danger" : ""}`}
-                                        onChange={(e) => this.props.handleChange(e.target.value, "name")} />
+                                        value={this.props.data.role_id}
+                                        className={`form-control d-block w-100 ${this.props.error.role_id ? "border-danger" : ""}`}
+                                        onChange={(e) => this.props.handleChange(e.target.value, "role_id")} />
                                 </div>
                                 <div className="mt-3">
-                                    <label>Preference Code <span className="text-danger">*</span></label>
+                                    <label>Role Description <span className="text-danger">*</span></label>
                                     <input
                                         disabled={isDisabled}
-                                        value={this.props.data.code}
-                                        className={`form-control d-block w-100 ${this.props.error.code ? "border-danger" : ""}`}
-                                        onChange={(e) => this.props.handleChange(e.target.value, "code")} />
+                                        value={this.props.data.role_desc}
+                                        className={`form-control d-block w-100 ${this.props.error.role_desc ? "border-danger" : ""}`}
+                                        onChange={(e) => this.props.handleChange(e.target.value, "role_desc")} />
                                 </div>
                             </div>
                             <div className="modal-footer">

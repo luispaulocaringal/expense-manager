@@ -27,7 +27,7 @@ export default class Main extends Component {
 
     render() {
         return (
-            <div className="row no-gutters bg-white">
+            <div className="row no-gutters bg-white flex-row flex-nowrap">
                 <div>
                     <SideMenu />
                 </div>

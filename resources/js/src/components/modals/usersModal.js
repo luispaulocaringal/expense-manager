@@ -164,21 +164,26 @@ class UsersModal extends Component {
                                         <p>{msg}</p>
                                     </div> : null
                                 }
+                                {this.props.error.role_id || this.props.error.amount ?
+                                    <div>
+                                        <p>Please fill up required fields</p>
+                                    </div> : null
+                                }
                                 <div>
                                     <label>Display Name <span className="text-danger">*</span></label>
                                     <input
                                         disabled={isDisabled}
-                                        value={this.props.data.name}
-                                        className={`form-control d-block w-100 ${this.props.error.name ? "border-danger" : ""}`}
-                                        onChange={(e) => this.props.handleChange(e.target.value, "name")} />
+                                        value={this.props.data.role_id}
+                                        className={`form-control d-block w-100 ${this.props.error.role_id ? "border-danger" : ""}`}
+                                        onChange={(e) => this.props.handleChange(e.target.role_id, "name")} />
                                 </div>
                                 <div className="mt-3">
-                                    <label>Preference Code <span className="text-danger">*</span></label>
+                                    <label>Role Description <span className="text-danger">*</span></label>
                                     <input
                                         disabled={isDisabled}
-                                        value={this.props.data.code}
-                                        className={`form-control d-block w-100 ${this.props.error.code ? "border-danger" : ""}`}
-                                        onChange={(e) => this.props.handleChange(e.target.value, "code")} />
+                                        value={this.props.data.role_desc}
+                                        className={`form-control d-block w-100 ${this.props.error.role_desc ? "border-danger" : ""}`}
+                                        onChange={(e) => this.props.handleChange(e.target.value, "role_desc")} />
                                 </div>
                             </div>
                             <div className="modal-footer">

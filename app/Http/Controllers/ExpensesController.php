@@ -37,7 +37,7 @@ class ExpensesController extends Controller
         $user = User::Auth();
         $expenses = Expenses::join('expense_categories', 'expenses.expenses_category_id','=','expense_categories.id')
             ->join('users','users.id','=','expenses.user_id')
-            ->select('expense_categories.expenses_category_name','expenses.amount','expenses.entry_date','expenses.created_at','expenses.expenses_category_id','expenses.chart_color')
+            ->select('expense_categories.expenses_category_name','expenses.amount','expenses.entry_date','expenses.created_at','expenses.expenses_category_id','expenses.chart_color','expenses.id')
             ->where('expenses.user_id',$user->id)
             ->get();
         $response = [
@@ -49,16 +49,18 @@ class ExpensesController extends Controller
 
     public function updateExpenses(Request $request){
         $user = User::Auth();
-        $id = $request->input('expensecategoriesid');
-        $expenseCategories = ExpenseCategories::findOrFail($id);
-        $expenseCategories->expenses_category_name = $request->expenses_category_name;
-        $expenseCategories->expenses_category_description = $request->expenses_category_description;
-        $expenseCategories->save();
+        $id = $request->input('expensesid');
+        $expenses = Expenses::findOrFail($id);
+        $expenses->expenses_category_id = $request->expenses_category_id;
+        $expenses->amount = $request->amount;
+        $expenses->entry_date = $request->entry_date;
+        $expenses->save();
         $response = [
             'success'=>true, 
             'data'=>[
-                'expenses_category_name'=>$expenseCategories->id,
-                'expenses_category_description'=>$expenseCategories->code
+                'expenses_category_id'=>$expenses->expenses_category_id,
+                'amount'=>$expenses->amount,
+                'entry_date'=>$expenses->entry_date
             ]
         ];
         return $response; 
@@ -66,19 +68,13 @@ class ExpensesController extends Controller
 
     public function deleteExpenses(Request $request){
         $user = User::Auth();
-        if($user->role_id=="administrator"){
-            $id = $request->input('expensecategoriesid');
-            $expenseCategories = ExpenseCategories::findOrFail($id);
-            $expenseCategories->delete();
-            $response = [
-                'success'=>true, 
-                'message'=>"The Category has been deleted"
-            ];
-           
-        }
-        else if($user->role_id!="administrator"){
-            $response = ['success'=>false, 'data'=>'You are not authorized to access this data'];
-        }
+        $id = $request->input('expensesid');
+        $expenses = Expenses::findOrFail($id);
+        $expenses->delete();
+        $response = [
+            'success'=>true, 
+            'message'=>"The Category has been deleted"
+        ];
         return $response; 
     }
 }

@@ -58,7 +58,7 @@ class ExpenseCategoriesModal extends Component {
         }).catch(function () {
             return { success: false }
         });
-        console.log(r)
+
         if (r.success) {
             this.setExpenseCategories();
             //this.addPreferenceNotification("success", "A new preference has been successfully added.");
@@ -76,7 +76,6 @@ class ExpenseCategoriesModal extends Component {
         var JWT_AUTHORIZATION = {
             headers: {'Authorization': "Bearer " + this.getCookie("authToken")}
         }
-        //const url = `${KABYAHE_API_URL}/api/preference/update?token=${this.getCookie("adminKey")}&preferenceid=${this.props.data.id}`;
         const url = `${EXPENSE_MANAGER_API_URL}/api/request/updateExpenseCategories?expensecategoriesid=${this.props.data.id}`;
         const r = await Axios.put(url, {
             'expenses_category_name': this.props.data.expenses_category_name,
@@ -86,7 +85,7 @@ class ExpenseCategoriesModal extends Component {
         }).catch(function () {
             return { success: false }
         });
-        console.log(r)
+        
         if (r.success) {
             this.setExpenseCategories();
             //this.addPreferenceNotification("success", "A preference has been successfully updated.");

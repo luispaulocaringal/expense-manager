@@ -41,7 +41,6 @@ class Home extends Component {
     render() {
         console.log(this.props.expenses)
         let data=[]
-        let expenseTable=[]   
         if(this.props.expenses!=null){
             for(var i = 0; i < this.props.expenses.length; i++){
                 data.push({

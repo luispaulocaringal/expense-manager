@@ -26,6 +26,12 @@ Route::group(['middleware' => ['jwt.auth','api-header']], function () {
     Route::delete('/request/deleteExpenseCategories', 'ExpenseCategoriesController@deleteExpenseCategories');
     Route::post('/request/addExpenses', 'ExpensesController@addExpenses');
     Route::get('/request/getExpenses', 'ExpensesController@getExpenses');
+    Route::put('/request/updateExpenses', 'ExpensesController@updateExpenses');
+    Route::delete('/request/deleteExpenses', 'ExpensesController@deleteExpenses');
+    Route::post('/request/addRoles', 'RolesController@addRoles');
+    Route::get('/request/getRoles', 'RolesController@getRoles');
+    Route::put('/request/updateRoles', 'RolesController@updateRoles');
+    Route::delete('/request/deleteRoles', 'RolesController@deleteRoles');
 });
 
 Route::group(['middleware' => 'api-header'], function () {

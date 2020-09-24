@@ -95,12 +95,15 @@ class ExpensesModal extends Component {
     }
 
     async update() {
-        const url = `${KABYAHE_API_URL}/api/preference/update?token=${this.getCookie("adminKey")}&preferenceid=${this.props.data.id}`;
+        var JWT_AUTHORIZATION = {
+            headers: {'Authorization': "Bearer " + this.getCookie("authToken")}
+        }
+        const url = `${EXPENSE_MANAGER_API_URL}/api/request/updateExpenses?expensesid=${this.props.data.id}`;
         const r = await Axios.put(url, {
-            'name': this.props.data.name,
-            'code': this.props.data.code,
-            'active': this.props.data.active
-        }).then(function (r) {
+            'expenses_category_id': this.props.data.expenses_category_id,
+            'amount': this.props.data.amount,
+            'entry_date': this.props.data.entry_date
+        },JWT_AUTHORIZATION).then(function (r) {
             return r.data;
         }).catch(function () {
             return { success: false }
@@ -108,33 +111,36 @@ class ExpensesModal extends Component {
 
         if (r.success) {
             this.setExpenses();
-            this.addPreferenceNotification("success", "A preference has been successfully updated.");
-            $('#preferenceModal').modal('hide')
+            //this.addPreferenceNotification("success", "A preference has been successfully updated.");
+            $('#expensesModal').modal('hide')
         } else {
-            if (this.isEmpty(this.props.data.name))
-                this.props.handleError("name")
-            if (this.isEmpty(this.props.data.code))
-                this.props.handleError("code")
-            this.addPreferenceNotification("error", "Please fill out all the required fields.");
+            if (this.isEmpty(this.props.data.expenses_category_id))
+                this.props.handleError("expenses_category_id")
+            if (this.isEmpty(this.props.data.amount))
+                this.props.handleError("amount")
+            if (this.isEmpty(this.props.data.entry_date))
+                this.props.handleError("entry_date")
+            //this.addPreferenceNotification("error", "Please fill out all the required fields.");
         }
     }
 
     async delete() {
-        const url = `${KABYAHE_API_URL}/api/preference/delete?token=${this.getCookie("adminKey")}&preferenceid=${this.props.data.id}`;
-        const r = await Axios.delete(url)
+        var JWT_AUTHORIZATION = {
+            headers: {'Authorization': "Bearer " + this.getCookie("authToken")}
+        }
+        const url = `${EXPENSE_MANAGER_API_URL}/api/request/deleteExpenses?expensesid=${this.props.data.id}`;
+        const r = await Axios.delete(url,JWT_AUTHORIZATION)
             .then(function (r) {
                 return r.data;
             }).catch(function () {
                 return { success: false }
             });
-
         if (r.success) {
             this.setExpenses();
-            this.getPreferencesCount();
-            this.addPreferenceNotification("success", "A preference has been successfully deleted.");
-            $('#preferenceModal').modal('hide')
+            //this.addPreferenceNotification("success", "A preference has been successfully deleted.");
+            $('#expensesModal').modal('hide')
         } else {
-            this.addPreferenceNotification("error", "There has been an error processing your request.");
+            //this.addPreferenceNotification("error", "There has been an error processing your request.");
         }
     }
 
@@ -177,12 +183,12 @@ class ExpensesModal extends Component {
 
         let expenseCategoriesChoices = []
         if(this.props.expenseCategories != null){
-            expenseCategoriesChoices.push(<option key={0}>Select one...</option>)
+            expenseCategoriesChoices.push(<option value='' key={0}>Select one...</option>)
             for(var i = 0; i < this.props.expenseCategories.length; i++){
                 expenseCategoriesChoices.push(<option key={this.props.expenseCategories[i].id} value={this.props.expenseCategories[i].id}>{this.props.expenseCategories[i]['expenses_category_name']}</option>)
             }
         }
-        console.log(this.props.data)
+
         return (
             <div>
                 <div className="modal fade" id="expensesModal" tabIndex="-1" role="dialog" aria-labelledby="expensesModal" aria-hidden="true">
@@ -198,6 +204,11 @@ class ExpensesModal extends Component {
                                 {msg ?
                                     <div>
                                         <p>{msg}</p>
+                                    </div> : null
+                                }
+                                {this.props.error.expenses_category_id || this.props.error.amount || this.props.error.entry_date ?
+                                    <div>
+                                        <p>Please fill up required fields</p>
                                     </div> : null
                                 }
                                 <div>

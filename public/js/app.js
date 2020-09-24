@@ -77732,7 +77732,6 @@ var ExpenseCategoriesModal = /*#__PURE__*/function (_Component) {
 
               case 3:
                 r = _context2.sent;
-                console.log(r);
 
                 if (r.success) {
                   this.setExpenseCategories(); //this.addPreferenceNotification("success", "A new preference has been successfully added.");
@@ -77743,7 +77742,7 @@ var ExpenseCategoriesModal = /*#__PURE__*/function (_Component) {
                   if (this.isEmpty(this.props.data.expenses_category_description)) this.props.handleError("expenses_category_description"); //this.addPreferenceNotification("error", "Please fill out all the required fields.");
                 }
 
-              case 6:
+              case 5:
               case "end":
                 return _context2.stop();
             }
@@ -77770,8 +77769,7 @@ var ExpenseCategoriesModal = /*#__PURE__*/function (_Component) {
                   headers: {
                     'Authorization': "Bearer " + this.getCookie("authToken")
                   }
-                }; //const url = `${KABYAHE_API_URL}/api/preference/update?token=${this.getCookie("adminKey")}&preferenceid=${this.props.data.id}`;
-
+                };
                 url = "".concat(_config__WEBPACK_IMPORTED_MODULE_6__["EXPENSE_MANAGER_API_URL"], "/api/request/updateExpenseCategories?expensecategoriesid=").concat(this.props.data.id);
                 _context3.next = 4;
                 return axios__WEBPACK_IMPORTED_MODULE_2___default.a.put(url, {
@@ -77787,7 +77785,6 @@ var ExpenseCategoriesModal = /*#__PURE__*/function (_Component) {
 
               case 4:
                 r = _context3.sent;
-                console.log(r);
 
                 if (r.success) {
                   this.setExpenseCategories(); //this.addPreferenceNotification("success", "A preference has been successfully updated.");
@@ -77798,7 +77795,7 @@ var ExpenseCategoriesModal = /*#__PURE__*/function (_Component) {
                   if (this.isEmpty(this.props.data.expenses_category_description)) this.props.handleError("expenses_category_description"); //this.addPreferenceNotification("error", "Please fill out all the required fields.");
                 }
 
-              case 7:
+              case 6:
               case "end":
                 return _context3.stop();
             }
@@ -78211,18 +78208,23 @@ var ExpensesModal = /*#__PURE__*/function (_Component) {
     key: "update",
     value: function () {
       var _update = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee4() {
-        var url, r;
+        var JWT_AUTHORIZATION, url, r;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee4$(_context4) {
           while (1) {
             switch (_context4.prev = _context4.next) {
               case 0:
-                url = "".concat(KABYAHE_API_URL, "/api/preference/update?token=").concat(this.getCookie("adminKey"), "&preferenceid=").concat(this.props.data.id);
-                _context4.next = 3;
+                JWT_AUTHORIZATION = {
+                  headers: {
+                    'Authorization': "Bearer " + this.getCookie("authToken")
+                  }
+                };
+                url = "".concat(_config__WEBPACK_IMPORTED_MODULE_6__["EXPENSE_MANAGER_API_URL"], "/api/request/updateExpenses?expensesid=").concat(this.props.data.id);
+                _context4.next = 4;
                 return axios__WEBPACK_IMPORTED_MODULE_2___default.a.put(url, {
-                  'name': this.props.data.name,
-                  'code': this.props.data.code,
-                  'active': this.props.data.active
-                }).then(function (r) {
+                  'expenses_category_id': this.props.data.expenses_category_id,
+                  'amount': this.props.data.amount,
+                  'entry_date': this.props.data.entry_date
+                }, JWT_AUTHORIZATION).then(function (r) {
                   return r.data;
                 })["catch"](function () {
                   return {
@@ -78230,20 +78232,20 @@ var ExpensesModal = /*#__PURE__*/function (_Component) {
                   };
                 });
 
-              case 3:
+              case 4:
                 r = _context4.sent;
 
                 if (r.success) {
-                  this.setExpenses();
-                  this.addPreferenceNotification("success", "A preference has been successfully updated.");
-                  $('#preferenceModal').modal('hide');
+                  this.setExpenses(); //this.addPreferenceNotification("success", "A preference has been successfully updated.");
+
+                  $('#expensesModal').modal('hide');
                 } else {
-                  if (this.isEmpty(this.props.data.name)) this.props.handleError("name");
-                  if (this.isEmpty(this.props.data.code)) this.props.handleError("code");
-                  this.addPreferenceNotification("error", "Please fill out all the required fields.");
+                  if (this.isEmpty(this.props.data.expenses_category_id)) this.props.handleError("expenses_category_id");
+                  if (this.isEmpty(this.props.data.amount)) this.props.handleError("amount");
+                  if (this.isEmpty(this.props.data.entry_date)) this.props.handleError("entry_date"); //this.addPreferenceNotification("error", "Please fill out all the required fields.");
                 }
 
-              case 5:
+              case 6:
               case "end":
                 return _context4.stop();
             }
@@ -78261,14 +78263,19 @@ var ExpensesModal = /*#__PURE__*/function (_Component) {
     key: "delete",
     value: function () {
       var _delete2 = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee5() {
-        var url, r;
+        var JWT_AUTHORIZATION, url, r;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee5$(_context5) {
           while (1) {
             switch (_context5.prev = _context5.next) {
               case 0:
-                url = "".concat(KABYAHE_API_URL, "/api/preference/delete?token=").concat(this.getCookie("adminKey"), "&preferenceid=").concat(this.props.data.id);
-                _context5.next = 3;
-                return axios__WEBPACK_IMPORTED_MODULE_2___default.a["delete"](url).then(function (r) {
+                JWT_AUTHORIZATION = {
+                  headers: {
+                    'Authorization': "Bearer " + this.getCookie("authToken")
+                  }
+                };
+                url = "".concat(_config__WEBPACK_IMPORTED_MODULE_6__["EXPENSE_MANAGER_API_URL"], "/api/request/deleteExpenses?expensesid=").concat(this.props.data.id);
+                _context5.next = 4;
+                return axios__WEBPACK_IMPORTED_MODULE_2___default.a["delete"](url, JWT_AUTHORIZATION).then(function (r) {
                   return r.data;
                 })["catch"](function () {
                   return {
@@ -78276,19 +78283,17 @@ var ExpensesModal = /*#__PURE__*/function (_Component) {
                   };
                 });
 
-              case 3:
+              case 4:
                 r = _context5.sent;
 
                 if (r.success) {
-                  this.setExpenses();
-                  this.getPreferencesCount();
-                  this.addPreferenceNotification("success", "A preference has been successfully deleted.");
-                  $('#preferenceModal').modal('hide');
-                } else {
-                  this.addPreferenceNotification("error", "There has been an error processing your request.");
+                  this.setExpenses(); //this.addPreferenceNotification("success", "A preference has been successfully deleted.");
+
+                  $('#expensesModal').modal('hide');
+                } else {//this.addPreferenceNotification("error", "There has been an error processing your request.");
                 }
 
-              case 5:
+              case 6:
               case "end":
                 return _context5.stop();
             }
@@ -78355,6 +78360,7 @@ var ExpensesModal = /*#__PURE__*/function (_Component) {
 
       if (this.props.expenseCategories != null) {
         expenseCategoriesChoices.push( /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("option", {
+          value: "",
           key: 0
         }, "Select one..."));
 
@@ -78366,7 +78372,6 @@ var ExpensesModal = /*#__PURE__*/function (_Component) {
         }
       }
 
-      console.log(this.props.data);
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
         className: "modal fade",
         id: "expensesModal",
@@ -78393,7 +78398,7 @@ var ExpensesModal = /*#__PURE__*/function (_Component) {
         "aria-hidden": "true"
       }, "\xD7"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
         className: "modal-body px-4"
-      }, msg ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("p", null, msg)) : null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("label", null, "Expense Category ", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("span", {
+      }, msg ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("p", null, msg)) : null, this.props.error.expenses_category_id || this.props.error.amount || this.props.error.entry_date ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("p", null, "Please fill up required fields")) : null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("label", null, "Expense Category ", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("span", {
         className: "text-danger"
       }, "*")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("select", {
         disabled: isDisabled,
@@ -78569,26 +78574,31 @@ var RolesModal = /*#__PURE__*/function (_Component) {
       return value != null ? unescape(value[1]) : null;
     }
   }, {
-    key: "setExpenses",
+    key: "setRoles",
     value: function () {
-      var _setExpenses = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
-        var preferences;
+      var _setRoles = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
+        var JWT_AUTHORIZATION, roles;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                _context.next = 2;
-                return axios__WEBPACK_IMPORTED_MODULE_2___default.a.get("".concat(_config__WEBPACK_IMPORTED_MODULE_6__["EXPENSE_MANAGER_API_URL"], "/api/preference/all?token=").concat(this.getCookie("adminKey"))).then(function (response) {
-                  return response.data;
+                JWT_AUTHORIZATION = {
+                  headers: {
+                    'Authorization': "Bearer " + this.getCookie("authToken")
+                  }
+                };
+                _context.next = 3;
+                return axios__WEBPACK_IMPORTED_MODULE_2___default.a.get("".concat(_config__WEBPACK_IMPORTED_MODULE_6__["EXPENSE_MANAGER_API_URL"], "/api/request/getRoles"), JWT_AUTHORIZATION).then(function (response) {
+                  return response.data.data;
                 })["catch"](function (error) {
                   console.log(error);
                 });
 
-              case 2:
-                preferences = _context.sent;
-                this.props.setExpenses(preferences);
+              case 3:
+                roles = _context.sent;
+                this.props.setRoles(roles);
 
-              case 4:
+              case 5:
               case "end":
                 return _context.stop();
             }
@@ -78596,11 +78606,11 @@ var RolesModal = /*#__PURE__*/function (_Component) {
         }, _callee, this);
       }));
 
-      function setExpenses() {
-        return _setExpenses.apply(this, arguments);
+      function setRoles() {
+        return _setRoles.apply(this, arguments);
       }
 
-      return setExpenses;
+      return setRoles;
     }()
   }, {
     key: "isEmpty",
@@ -78612,16 +78622,21 @@ var RolesModal = /*#__PURE__*/function (_Component) {
     key: "add",
     value: function () {
       var _add = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2() {
-        var r;
+        var JWT_AUTHORIZATION, r;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee2$(_context2) {
           while (1) {
             switch (_context2.prev = _context2.next) {
               case 0:
-                _context2.next = 2;
-                return axios__WEBPACK_IMPORTED_MODULE_2___default.a.post("".concat(KABYAHE_API_URL, "/api/preference/add?token=").concat(this.getCookie("adminKey")), {
-                  'name': this.props.data.name,
-                  'code': this.props.data.code
-                }).then(function (r) {
+                JWT_AUTHORIZATION = {
+                  headers: {
+                    'Authorization': "Bearer " + this.getCookie("authToken")
+                  }
+                };
+                _context2.next = 3;
+                return axios__WEBPACK_IMPORTED_MODULE_2___default.a.post("".concat(_config__WEBPACK_IMPORTED_MODULE_6__["EXPENSE_MANAGER_API_URL"], "/api/request/addRoles"), {
+                  'role_id': this.props.data.role_id,
+                  'role_desc': this.props.data.role_desc
+                }, JWT_AUTHORIZATION).then(function (r) {
                   return r.data;
                 })["catch"](function () {
                   return {
@@ -78629,21 +78644,20 @@ var RolesModal = /*#__PURE__*/function (_Component) {
                   };
                 });
 
-              case 2:
+              case 3:
                 r = _context2.sent;
 
                 if (r.success) {
-                  this.setExpenses();
-                  this.getPreferencesCount();
-                  this.addPreferenceNotification("success", "A new preference has been successfully added.");
-                  $('#preferenceModal').modal('hide');
+                  this.setRoles(); //this.addPreferenceNotification("success", "A new preference has been successfully added.");
+
+                  $('#rolesModal').modal('hide');
                 } else {
-                  if (this.isEmpty(this.props.data.name)) this.props.handleError("name");
-                  if (this.isEmpty(this.props.data.code)) this.props.handleError("code");
-                  this.addPreferenceNotification("error", "Please fill out all the required fields.");
+                  if (!r.success) console.log(r.message);
+                  if (this.isEmpty(this.props.data.role_id)) this.props.handleError("role_id");
+                  if (this.isEmpty(this.props.data.role_desc)) this.props.handleError("role_desc"); //this.addPreferenceNotification("error", "Please fill out all the required fields.");
                 }
 
-              case 4:
+              case 5:
               case "end":
                 return _context2.stop();
             }
@@ -78661,18 +78675,22 @@ var RolesModal = /*#__PURE__*/function (_Component) {
     key: "update",
     value: function () {
       var _update = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee3() {
-        var url, r;
+        var JWT_AUTHORIZATION, url, r;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee3$(_context3) {
           while (1) {
             switch (_context3.prev = _context3.next) {
               case 0:
-                url = "".concat(KABYAHE_API_URL, "/api/preference/update?token=").concat(this.getCookie("adminKey"), "&preferenceid=").concat(this.props.data.id);
-                _context3.next = 3;
+                JWT_AUTHORIZATION = {
+                  headers: {
+                    'Authorization': "Bearer " + this.getCookie("authToken")
+                  }
+                };
+                url = "".concat(_config__WEBPACK_IMPORTED_MODULE_6__["EXPENSE_MANAGER_API_URL"], "/api/request/updateRoles?roleid=").concat(this.props.data.id);
+                _context3.next = 4;
                 return axios__WEBPACK_IMPORTED_MODULE_2___default.a.put(url, {
-                  'name': this.props.data.name,
-                  'code': this.props.data.code,
-                  'active': this.props.data.active
-                }).then(function (r) {
+                  'role_id': this.props.data.role_id,
+                  'role_desc': this.props.data.role_desc
+                }, JWT_AUTHORIZATION).then(function (r) {
                   return r.data;
                 })["catch"](function () {
                   return {
@@ -78680,20 +78698,19 @@ var RolesModal = /*#__PURE__*/function (_Component) {
                   };
                 });
 
-              case 3:
+              case 4:
                 r = _context3.sent;
 
                 if (r.success) {
-                  this.setExpenses();
-                  this.addPreferenceNotification("success", "A preference has been successfully updated.");
-                  $('#preferenceModal').modal('hide');
+                  this.setRoles(); //this.addPreferenceNotification("success", "A preference has been successfully updated.");
+
+                  $('#rolesModal').modal('hide');
                 } else {
-                  if (this.isEmpty(this.props.data.name)) this.props.handleError("name");
-                  if (this.isEmpty(this.props.data.code)) this.props.handleError("code");
-                  this.addPreferenceNotification("error", "Please fill out all the required fields.");
+                  if (this.isEmpty(this.props.data.role_id)) this.props.handleError("role_id");
+                  if (this.isEmpty(this.props.data.role_desc)) this.props.handleError("role_desc"); //this.addPreferenceNotification("error", "Please fill out all the required fields.");
                 }
 
-              case 5:
+              case 6:
               case "end":
                 return _context3.stop();
             }
@@ -78711,14 +78728,19 @@ var RolesModal = /*#__PURE__*/function (_Component) {
     key: "delete",
     value: function () {
       var _delete2 = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee4() {
-        var url, r;
+        var JWT_AUTHORIZATION, url, r;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee4$(_context4) {
           while (1) {
             switch (_context4.prev = _context4.next) {
               case 0:
-                url = "".concat(KABYAHE_API_URL, "/api/preference/delete?token=").concat(this.getCookie("adminKey"), "&preferenceid=").concat(this.props.data.id);
-                _context4.next = 3;
-                return axios__WEBPACK_IMPORTED_MODULE_2___default.a["delete"](url).then(function (r) {
+                JWT_AUTHORIZATION = {
+                  headers: {
+                    'Authorization': "Bearer " + this.getCookie("authToken")
+                  }
+                };
+                url = "".concat(_config__WEBPACK_IMPORTED_MODULE_6__["EXPENSE_MANAGER_API_URL"], "/api/request/deleteRoles?roleid=").concat(this.props.data.id);
+                _context4.next = 4;
+                return axios__WEBPACK_IMPORTED_MODULE_2___default.a["delete"](url, JWT_AUTHORIZATION).then(function (r) {
                   return r.data;
                 })["catch"](function () {
                   return {
@@ -78726,19 +78748,17 @@ var RolesModal = /*#__PURE__*/function (_Component) {
                   };
                 });
 
-              case 3:
+              case 4:
                 r = _context4.sent;
 
                 if (r.success) {
-                  this.setExpenses();
-                  this.getPreferencesCount();
-                  this.addPreferenceNotification("success", "A preference has been successfully deleted.");
-                  $('#preferenceModal').modal('hide');
-                } else {
-                  this.addPreferenceNotification("error", "There has been an error processing your request.");
+                  this.setRoles(); //this.addPreferenceNotification("success", "A preference has been successfully deleted.");
+
+                  $('#rolesModal').modal('hide');
+                } else {//this.addPreferenceNotification("error", "There has been an error processing your request.");
                 }
 
-              case 5:
+              case 6:
               case "end":
                 return _context4.stop();
             }
@@ -78770,7 +78790,7 @@ var RolesModal = /*#__PURE__*/function (_Component) {
       var btnStyle = null;
 
       if (mode == "add") {
-        title = "Add New Preference";
+        title = "Add New Role";
         label = "Add";
         msg = null;
         isDisabled = false;
@@ -78780,7 +78800,7 @@ var RolesModal = /*#__PURE__*/function (_Component) {
           return _this.add();
         };
       } else if (mode == "edit") {
-        title = "Edit Preference";
+        title = "Edit Role";
         label = "Update";
         msg = null;
         isDisabled = false;
@@ -78790,9 +78810,9 @@ var RolesModal = /*#__PURE__*/function (_Component) {
           return _this.update();
         };
       } else if (mode == "delete") {
-        title = "Delete Preference";
+        title = "Delete Role";
         label = "Delete";
-        msg = "Are you sure you want to delete this preference?";
+        msg = "Are you sure you want to delete this role?";
         isDisabled = true;
         btnStyle = "btn btn-danger";
 
@@ -78827,25 +78847,25 @@ var RolesModal = /*#__PURE__*/function (_Component) {
         "aria-hidden": "true"
       }, "\xD7"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
         className: "modal-body px-4"
-      }, msg ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("p", null, msg)) : null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("label", null, "Display Name ", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("span", {
+      }, msg ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("p", null, msg)) : null, this.props.error.role_id || this.props.error.role_desc ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("p", null, "Please fill up required fields")) : null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("label", null, "Display Name ", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("span", {
         className: "text-danger"
       }, "*")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("input", {
         disabled: isDisabled,
-        value: this.props.data.name,
-        className: "form-control d-block w-100 ".concat(this.props.error.name ? "border-danger" : ""),
+        value: this.props.data.role_id,
+        className: "form-control d-block w-100 ".concat(this.props.error.role_id ? "border-danger" : ""),
         onChange: function onChange(e) {
-          return _this.props.handleChange(e.target.value, "name");
+          return _this.props.handleChange(e.target.value, "role_id");
         }
       })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
         className: "mt-3"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("label", null, "Preference Code ", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("span", {
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("label", null, "Role Description ", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("span", {
         className: "text-danger"
       }, "*")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("input", {
         disabled: isDisabled,
-        value: this.props.data.code,
-        className: "form-control d-block w-100 ".concat(this.props.error.code ? "border-danger" : ""),
+        value: this.props.data.role_desc,
+        className: "form-control d-block w-100 ".concat(this.props.error.role_desc ? "border-danger" : ""),
         onChange: function onChange(e) {
-          return _this.props.handleChange(e.target.value, "code");
+          return _this.props.handleChange(e.target.value, "role_desc");
         }
       }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
         className: "modal-footer"
@@ -79213,25 +79233,25 @@ var UsersModal = /*#__PURE__*/function (_Component) {
         "aria-hidden": "true"
       }, "\xD7"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
         className: "modal-body px-4"
-      }, msg ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("p", null, msg)) : null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("label", null, "Display Name ", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("span", {
+      }, msg ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("p", null, msg)) : null, this.props.error.role_id || this.props.error.amount ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("p", null, "Please fill up required fields")) : null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("label", null, "Display Name ", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("span", {
         className: "text-danger"
       }, "*")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("input", {
         disabled: isDisabled,
-        value: this.props.data.name,
-        className: "form-control d-block w-100 ".concat(this.props.error.name ? "border-danger" : ""),
+        value: this.props.data.role_id,
+        className: "form-control d-block w-100 ".concat(this.props.error.role_id ? "border-danger" : ""),
         onChange: function onChange(e) {
-          return _this.props.handleChange(e.target.value, "name");
+          return _this.props.handleChange(e.target.role_id, "name");
         }
       })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
         className: "mt-3"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("label", null, "Preference Code ", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("span", {
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("label", null, "Role Description ", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("span", {
         className: "text-danger"
       }, "*")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("input", {
         disabled: isDisabled,
-        value: this.props.data.code,
-        className: "form-control d-block w-100 ".concat(this.props.error.code ? "border-danger" : ""),
+        value: this.props.data.role_desc,
+        className: "form-control d-block w-100 ".concat(this.props.error.role_desc ? "border-danger" : ""),
         onChange: function onChange(e) {
-          return _this.props.handleChange(e.target.value, "code");
+          return _this.props.handleChange(e.target.value, "role_desc");
         }
       }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
         className: "modal-footer"
@@ -80499,7 +80519,6 @@ var Home = /*#__PURE__*/function (_Component) {
     value: function render() {
       console.log(this.props.expenses);
       var data = [];
-      var expenseTable = [];
 
       if (this.props.expenses != null) {
         for (var i = 0; i < this.props.expenses.length; i++) {
@@ -80916,7 +80935,7 @@ var Main = /*#__PURE__*/function (_Component) {
       var _this2 = this;
 
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "row no-gutters bg-white"
+        className: "row no-gutters bg-white flex-row flex-nowrap"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components__WEBPACK_IMPORTED_MODULE_2__["SideMenu"], null)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "col"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -80975,16 +80994,27 @@ var Main = /*#__PURE__*/function (_Component) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var react_table__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-table */ "./node_modules/react-table/es/index.js");
-/* harmony import */ var _components_modals__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../components/modals */ "./resources/js/src/components/modals/index.js");
-/* harmony import */ var _actions__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../actions */ "./resources/js/src/actions/index.js");
-/* harmony import */ var redux__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! redux */ "./node_modules/redux/es/redux.js");
-/* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
-/* harmony import */ var react_table_react_table_css__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! react-table/react-table.css */ "./node_modules/react-table/react-table.css");
-/* harmony import */ var react_table_react_table_css__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(react_table_react_table_css__WEBPACK_IMPORTED_MODULE_6__);
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var react_table__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react-table */ "./node_modules/react-table/es/index.js");
+/* harmony import */ var _components_modals__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../components/modals */ "./resources/js/src/components/modals/index.js");
+/* harmony import */ var _actions__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../actions */ "./resources/js/src/actions/index.js");
+/* harmony import */ var redux__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! redux */ "./node_modules/redux/es/redux.js");
+/* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
+/* harmony import */ var _config__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../config */ "./resources/js/src/config.js");
+/* harmony import */ var react_table_react_table_css__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! react-table/react-table.css */ "./node_modules/react-table/react-table.css");
+/* harmony import */ var react_table_react_table_css__WEBPACK_IMPORTED_MODULE_9___default = /*#__PURE__*/__webpack_require__.n(react_table_react_table_css__WEBPACK_IMPORTED_MODULE_9__);
+
+
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -81014,6 +81044,8 @@ function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.g
 
 
 
+
+
 var Roles = /*#__PURE__*/function (_Component) {
   _inherits(Roles, _Component);
 
@@ -81028,35 +81060,118 @@ var Roles = /*#__PURE__*/function (_Component) {
     _this.state = {
       mode: null,
       data: {
-        name: '',
-        code: ''
+        role_id: '',
+        role_desc: ''
       },
       error: {
-        name: false,
-        code: false
+        role_id: false,
+        role_desc: false
       }
     };
     return _this;
   }
 
   _createClass(Roles, [{
+    key: "getCookie",
+    value: function getCookie(name) {
+      var re = new RegExp(name + "=([^;]+)");
+      var value = re.exec(document.cookie);
+      return value != null ? unescape(value[1]) : null;
+    }
+  }, {
+    key: "setRoles",
+    value: function () {
+      var _setRoles = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
+        var JWT_AUTHORIZATION, roles;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                JWT_AUTHORIZATION = {
+                  headers: {
+                    'Authorization': "Bearer " + this.getCookie("authToken")
+                  }
+                };
+                _context.next = 3;
+                return axios__WEBPACK_IMPORTED_MODULE_2___default.a.get("".concat(_config__WEBPACK_IMPORTED_MODULE_8__["EXPENSE_MANAGER_API_URL"], "/api/request/getRoles"), JWT_AUTHORIZATION).then(function (response) {
+                  return response.data.data;
+                })["catch"](function (error) {
+                  console.log(error);
+                });
+
+              case 3:
+                roles = _context.sent;
+                this.props.setRoles(roles);
+
+              case 5:
+              case "end":
+                return _context.stop();
+            }
+          }
+        }, _callee, this);
+      }));
+
+      function setRoles() {
+        return _setRoles.apply(this, arguments);
+      }
+
+      return setRoles;
+    }()
+  }, {
+    key: "componentDidMount",
+    value: function componentDidMount() {
+      this.setRoles();
+    }
+  }, {
+    key: "handleChange",
+    value: function handleChange(e, target) {
+      var data = this.state.data;
+      data[target] = e;
+      var error = this.state.error;
+      error[target] = false;
+      this.setState({
+        data: data,
+        error: error
+      });
+    }
+  }, {
+    key: "handleError",
+    value: function handleError(target) {
+      var error = this.state.error;
+      error[target] = true;
+      this.setState({
+        error: error
+      });
+    }
+  }, {
     key: "render",
     value: function render() {
       var _this2 = this;
 
-      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      var data = [];
+
+      for (var i = 0; i < this.props.roles.length; i++) {
+        data.push({
+          'id': this.props.roles[i].id,
+          'role_id': this.props.roles[i].role_id,
+          'role_desc': this.props.roles[i].role_desc,
+          'created_at': this.props.roles[i].created_at
+        });
+      }
+
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
         className: "container-fluid bg-white"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
         className: "container"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
         className: "form-group row"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
         className: "col-md-6"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h4", {
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("h4", {
         className: "font-weight-bold"
-      }, "User Management > Roles")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      }, "User Management > Roles")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
         className: "col-md-6"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("button", {
         className: "btn btn-primary float-right",
         "data-toggle": "modal",
         "data-target": "#rolesModal",
@@ -81064,32 +81179,33 @@ var Roles = /*#__PURE__*/function (_Component) {
           return _this2.setState({
             mode: "add",
             data: {
-              name: '',
-              code: ''
+              role_id: '',
+              role_desc: ''
             },
             error: {
-              name: false,
-              code: false
+              role_id: false,
+              role_desc: false
             }
           });
         }
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("span", {
         className: "fa fa-plus"
-      }), " Add Role"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      }), " Add Role"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
         className: "form-group row"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
         className: "col-md-12"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_table__WEBPACK_IMPORTED_MODULE_1__["default"], {
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(react_table__WEBPACK_IMPORTED_MODULE_3__["default"], {
         className: "shadow rounded",
+        data: data,
         columns: [{
           Header: 'Display Name',
-          accessor: 'name',
+          accessor: 'role_id',
           headerClassName: 'font-weight-bold',
           className: 'px-3',
           filterable: true
         }, {
           Header: 'Description',
-          accessor: 'description',
+          accessor: 'role_desc',
           headerClassName: 'font-weight-bold',
           className: 'px-3',
           filterable: true
@@ -81099,18 +81215,50 @@ var Roles = /*#__PURE__*/function (_Component) {
           headerClassName: 'font-weight-bold',
           className: 'px-3',
           filterable: true
-        }],
-        defaultPageSize: 10,
-        data: [{
-          name: "Admin",
-          description: "super user",
-          created_at: "2020-09-23"
         }, {
-          name: "User",
-          description: "can add expenses",
-          created_at: "2020-09-23"
-        }]
-      })))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_modals__WEBPACK_IMPORTED_MODULE_2__["RolesModal"], {
+          Header: ' ',
+          accessor: 'id',
+          sortable: false,
+          Cell: function Cell(props) {
+            return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+              className: "text-center"
+            }, props.row.role_id != "administrator" ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("button", {
+              "data-toggle": "modal",
+              "data-target": "#rolesModal",
+              className: "btn btn-secondary edit-delete-preference-btn mx-1 py-1",
+              onClick: function onClick() {
+                return _this2.setState({
+                  mode: "edit",
+                  data: props.row,
+                  error: {
+                    role_id: false,
+                    role_desc: false
+                  }
+                });
+              }
+            }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("i", {
+              className: "fa fa-edit mr-2"
+            }), "Edit"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("button", {
+              "data-toggle": "modal",
+              "data-target": "#rolesModal",
+              className: "btn btn-danger edit-delete-preference-btn mx-1 py-1",
+              onClick: function onClick() {
+                return _this2.setState({
+                  mode: "delete",
+                  data: props.row,
+                  error: {
+                    role_id: false,
+                    role_desc: false
+                  }
+                });
+              }
+            }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("i", {
+              className: "fa fa-trash mr-2"
+            }), "Delete")) : null);
+          }
+        }],
+        defaultPageSize: 10
+      })))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_components_modals__WEBPACK_IMPORTED_MODULE_4__["RolesModal"], {
         mode: this.state.mode,
         data: this.state.data,
         error: this.state.error,
@@ -81125,7 +81273,7 @@ var Roles = /*#__PURE__*/function (_Component) {
   }]);
 
   return Roles;
-}(react__WEBPACK_IMPORTED_MODULE_0__["Component"]);
+}(react__WEBPACK_IMPORTED_MODULE_1__["Component"]);
 
 function mapStateToProps(state) {
   return {
@@ -81134,12 +81282,12 @@ function mapStateToProps(state) {
 }
 
 function mapDispatchToProps(dispatch) {
-  return Object(redux__WEBPACK_IMPORTED_MODULE_4__["bindActionCreators"])({
-    setRoles: _actions__WEBPACK_IMPORTED_MODULE_3__["setRoles"]
+  return Object(redux__WEBPACK_IMPORTED_MODULE_6__["bindActionCreators"])({
+    setRoles: _actions__WEBPACK_IMPORTED_MODULE_5__["setRoles"]
   }, dispatch);
 }
 
-/* harmony default export */ __webpack_exports__["default"] = (Object(react_redux__WEBPACK_IMPORTED_MODULE_5__["connect"])(mapStateToProps, mapDispatchToProps)(Roles));
+/* harmony default export */ __webpack_exports__["default"] = (Object(react_redux__WEBPACK_IMPORTED_MODULE_7__["connect"])(mapStateToProps, mapDispatchToProps)(Roles));
 
 /***/ }),
 
