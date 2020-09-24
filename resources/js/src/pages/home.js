@@ -40,15 +40,37 @@ class Home extends Component {
 
     render() {
         console.log(this.props.expenses)
-        let data=[]
+        let expenses={}
         if(this.props.expenses!=null){
             for(var i = 0; i < this.props.expenses.length; i++){
-                data.push({
-                    title:this.props.expenses[i].expenses_category_name,
-                    value:parseInt(this.props.expenses[i].amount),
-                    color:this.props.expenses[i].chart_color
-                })
+                // data.push({
+                //     title:this.props.expenses[i].expenses_category_name,
+                //     value:parseInt(this.props.expenses[i].amount),
+                //     color:this.props.expenses[i].chart_color
+                // })
+                // if(!this.props.expenses[i].expenses_category_name in expenses){
+                //     this.props.expenses[i].expenses_category_name].push(this.props.expenses[i].amount)
+                // }
+                // else{
+                //     expenses[this.props.expenses[i].expenses_category_name].push(this.props.expenses[i].amount)
+                // }
             }
+            //     if(!expenses.includes(this.props.expenses[i].expenses_category_name)){
+            //         expenses.push({
+            //             title:this.props.expenses[i].expenses_category_name,
+            //             value:parseInt(this.props.expenses[i].amount),
+            //             color:this.props.expenses[i].chart_color
+            //         })
+            //     }
+            //     else{
+            //         expenses.title[this.props.expenses[i].expenses_category_name].push({
+            //             title:this.props.expenses[i].expenses_category_name,
+            //             value:parseInt(this.props.expenses[i].amount),
+            //             color:this.props.expenses[i].chart_color
+            //         })
+            //     }
+            // }
+            console.log(expenses)
         }
         return (
             <div className="container-fluid bg-white">
@@ -70,18 +92,18 @@ class Home extends Component {
                                             <div className='form-group row'>
                                                 <div className='col-md-12'>
                                                     <ReactTable
-                                                        data={this.props.expenses}
+                                                        className='shadow rounded'
                                                         columns={[{
                                                             Header: 'Expense Categories',
                                                             accessor: 'expenses_category_name',
                                                             headerClassName: 'font-weight-bold',
-                                                            className: 'px-3',
+                                                            className: 'px-3 font-weight-bold',
                                                             filterable: true
                                                         },{
                                                             Header: 'Total',
                                                             accessor: 'amount',
                                                             headerClassName: 'font-weight-bold',
-                                                            className: 'px-3',
+                                                            className: 'px-3 font-weight-bold',
                                                             filterable: true
                                                         }]}
                                                         defaultPageSize={5}
@@ -92,7 +114,6 @@ class Home extends Component {
                                         <div className='col-md-6 graph-container justify-content-center'>
                                             <PieChart
                                                 className='px-5 mx-auto'
-                                                data={data}
                                                 animate
                                                 animationDuration={500}
                                                 animationEasing="ease-out"

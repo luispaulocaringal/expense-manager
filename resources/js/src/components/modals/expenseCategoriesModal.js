@@ -85,7 +85,7 @@ class ExpenseCategoriesModal extends Component {
         }).catch(function () {
             return { success: false }
         });
-        
+
         if (r.success) {
             this.setExpenseCategories();
             //this.addPreferenceNotification("success", "A preference has been successfully updated.");
@@ -150,7 +150,7 @@ class ExpenseCategoriesModal extends Component {
         else if (mode == "delete") {
             title = "Delete Expense Category";
             label = "Delete";
-            msg = "Are you sure you want to delete this Category?"
+            msg = "Are you sure you want to delete this category?"
             isDisabled = true;
             btnStyle = "btn btn-danger"
             submit = () => this.delete();

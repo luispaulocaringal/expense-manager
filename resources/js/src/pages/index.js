@@ -4,6 +4,7 @@ import Users from './users';
 import Expenses from './expenses';
 import ExpenseCategories from './expenseCategories';
 import Home from './home';
+import Account from './account'
 import Main from './main';
 
-export { Home, Login, Main, Roles, Users, Expenses, ExpenseCategories};
+export { Home, Login, Main, Roles, Users, Expenses, ExpenseCategories, Account};

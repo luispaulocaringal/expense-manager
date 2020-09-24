@@ -86,7 +86,7 @@ class ExpenseCategories extends Component {
                                     Header: 'Display Name',
                                     accessor: 'expenses_category_name',
                                     headerClassName: 'font-weight-bold',
-                                    className: 'px-3',
+                                    className: 'px-3 font-weight-bold',
                                     filterable: true
                                 }, {
                                     Header: 'Description',

@@ -189,6 +189,9 @@ class ExpensesModal extends Component {
             }
         }
 
+        var today = new Date(),
+            date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
+
         return (
             <div>
                 <div className="modal fade" id="expensesModal" tabIndex="-1" role="dialog" aria-labelledby="expensesModal" aria-hidden="true">
@@ -224,6 +227,7 @@ class ExpensesModal extends Component {
                                 <div className="mt-3">
                                     <label>Amount <span className="text-danger">*</span></label>
                                     <input
+                                        type={'number'}
                                         disabled={isDisabled}
                                         value={this.props.data.amount}
                                         className={`form-control d-block w-100 ${this.props.error.amount ? "border-danger" : ""}`}

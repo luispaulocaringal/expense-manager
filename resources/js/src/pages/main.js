@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Redirect, Route } from 'react-router-dom';
 import { NavBar, SideMenu } from '../components';
-import { Home, Roles, Users, Expenses, ExpenseCategories } from './index';
+import { Home, Roles, Users, Expenses, ExpenseCategories, Account } from './index';
 
 export default class Main extends Component {
     constructor(props) {
@@ -35,6 +35,7 @@ export default class Main extends Component {
                     <div className="main-container">
                         <NavBar history={this.props.history} />
                         <div className="main py-4">
+                            <Route exact path='/account' render={() => (<Account />)} />
                             <Route exact path='/expenses' render={() => (<Expenses />)} />
                             <Route exact path='/expenseCategories' render={() => this.checkAccess(<ExpenseCategories />)} />
                             <Route exact path='/users' render={() => this.checkAccess(<Users />)} />

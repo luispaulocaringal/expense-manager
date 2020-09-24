@@ -93,7 +93,7 @@ class Roles extends Component {
                                     Header: 'Display Name',
                                     accessor: 'role_id',
                                     headerClassName: 'font-weight-bold',
-                                    className: 'px-3',
+                                    className: 'px-3 font-weight-bold',
                                     filterable: true
                                 }, {
                                     Header: 'Description',

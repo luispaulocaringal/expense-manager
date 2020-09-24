@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import Axios from 'axios';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { setUsers } from '../../actions';
+import { setUsers, setRoles } from '../../actions';
 import { EXPENSE_MANAGER_API_URL } from '../../config';
 //import NotificationSystem from 'react-notification-system';
 
@@ -25,15 +25,36 @@ class UsersModal extends Component {
         return (value != null) ? unescape(value[1]) : null;
     }
 
-    async setExpenses() {
-        const preferences = await Axios.get(`${EXPENSE_MANAGER_API_URL}/api/preference/all?token=${this.getCookie("adminKey")}`)
+    async setRoles() {
+        var JWT_AUTHORIZATION = {
+            headers: {'Authorization': "Bearer " + this.getCookie("authToken")}
+        }
+        const roles = await Axios.get(`${EXPENSE_MANAGER_API_URL}/api/request/getRoles`,JWT_AUTHORIZATION)
             .then(function (response) {
-                return response.data;
+                return response.data.data;
             }).catch(function (error) {
                 console.log(error);
             });
 
-        this.props.setExpenses(preferences)
+        this.props.setRoles(roles)
+    }
+
+    componentDidMount() {
+        this.setRoles();
+    }
+
+    async setUsers() {
+        var JWT_AUTHORIZATION = {
+            headers: {'Authorization': "Bearer " + this.getCookie("authToken")}
+        }
+        const users = await Axios.get(`${EXPENSE_MANAGER_API_URL}/api/user/getUsers`,JWT_AUTHORIZATION)
+            .then(function (response) {
+                return response.data.data;
+            }).catch(function (error) {
+                console.log(error);
+            });
+
+        this.props.setUsers(users)
     }
 
     isEmpty(str) {
@@ -43,70 +64,85 @@ class UsersModal extends Component {
     }
 
     async add() {
-        const r = await Axios.post(`${KABYAHE_API_URL}/api/preference/add?token=${this.getCookie("adminKey")}`, {
-            'name': this.props.data.name,
-            'code': this.props.data.code
-        }).then(function (r) {
+        var JWT_AUTHORIZATION = {
+            headers: {'Authorization': "Bearer " + this.getCookie("authToken")}
+        }
+        const r = await Axios.post(`${EXPENSE_MANAGER_API_URL}/api/user/addUsers`, {
+            'first_name': this.props.data.first_name,
+            'last_name': this.props.data.last_name,
+            'email': this.props.data.email,
+            'role_id':this.props.data.role_id
+        },JWT_AUTHORIZATION).then(function (r) {
             return r.data;
         }).catch(function () {
             return { success: false }
         });
 
         if (r.success) {
-            this.setExpenses();
-            this.getPreferencesCount();
-            this.addPreferenceNotification("success", "A new preference has been successfully added.");
-            $('#preferenceModal').modal('hide')
+            this.setUsers();
+            //this.addPreferenceNotification("success", "A new preference has been successfully added.");
+            $('#usersModal').modal('hide')
         } else {
-            if (this.isEmpty(this.props.data.name))
-                this.props.handleError("name")
-            if (this.isEmpty(this.props.data.code))
-                this.props.handleError("code")
-            this.addPreferenceNotification("error", "Please fill out all the required fields.");
+            if (this.isEmpty(this.props.data.first_name))
+                this.props.handleError("first_name")
+            if (this.isEmpty(this.props.data.last_name))
+                this.props.handleError("last_name")
+            if (this.isEmpty(this.props.data.email))
+                this.props.handleError("email")
+            if (this.isEmpty(this.props.data.role_id))
+                this.props.handleError("role_id")
+            //this.addPreferenceNotification("error", "Please fill out all the required fields.");
         }
     }
 
     async update() {
-        const url = `${KABYAHE_API_URL}/api/preference/update?token=${this.getCookie("adminKey")}&preferenceid=${this.props.data.id}`;
+        var JWT_AUTHORIZATION = {
+            headers: {'Authorization': "Bearer " + this.getCookie("authToken")}
+        }
+        const url = `${EXPENSE_MANAGER_API_URL}/api/user/updateUsers?usersid=${this.props.data.id}`;
         const r = await Axios.put(url, {
-            'name': this.props.data.name,
-            'code': this.props.data.code,
-            'active': this.props.data.active
-        }).then(function (r) {
+            'first_name': this.props.data.first_name,
+            'last_name': this.props.data.last_name,
+            'email': this.props.data.email,
+            'role_id':this.props.data.role_id
+        },JWT_AUTHORIZATION).then(function (r) {
             return r.data;
         }).catch(function () {
             return { success: false }
         });
 
         if (r.success) {
-            this.setExpenses();
-            this.addPreferenceNotification("success", "A preference has been successfully updated.");
-            $('#preferenceModal').modal('hide')
+            this.setUsers();
+            //this.addPreferenceNotification("success", "A preference has been successfully updated.");
+            $('#usersModal').modal('hide')
         } else {
-            if (this.isEmpty(this.props.data.name))
-                this.props.handleError("name")
-            if (this.isEmpty(this.props.data.code))
-                this.props.handleError("code")
-            this.addPreferenceNotification("error", "Please fill out all the required fields.");
+            if (this.isEmpty(this.props.data.expenses_category_id))
+                this.props.handleError("expenses_category_id")
+            if (this.isEmpty(this.props.data.amount))
+                this.props.handleError("amount")
+            if (this.isEmpty(this.props.data.entry_date))
+                this.props.handleError("entry_date")
+            //this.addPreferenceNotification("error", "Please fill out all the required fields.");
         }
     }
 
     async delete() {
-        const url = `${KABYAHE_API_URL}/api/preference/delete?token=${this.getCookie("adminKey")}&preferenceid=${this.props.data.id}`;
-        const r = await Axios.delete(url)
+        var JWT_AUTHORIZATION = {
+            headers: {'Authorization': "Bearer " + this.getCookie("authToken")}
+        }
+        const url = `${EXPENSE_MANAGER_API_URL}/api/user/deleteUsers?usersid=${this.props.data.id}`;
+        const r = await Axios.delete(url,JWT_AUTHORIZATION)
             .then(function (r) {
                 return r.data;
             }).catch(function () {
                 return { success: false }
             });
-
         if (r.success) {
-            this.setExpenses();
-            this.getPreferencesCount();
-            this.addPreferenceNotification("success", "A preference has been successfully deleted.");
-            $('#preferenceModal').modal('hide')
+            this.setUsers();
+            //this.addPreferenceNotification("success", "A preference has been successfully deleted.");
+            $('#usersModal').modal('hide')
         } else {
-            this.addPreferenceNotification("error", "There has been an error processing your request.");
+            //this.addPreferenceNotification("error", "There has been an error processing your request.");
         }
     }
 
@@ -123,7 +159,7 @@ class UsersModal extends Component {
         let isDisabled = null;
         let btnStyle = null;
         if (mode == "add") {
-            title = "Add New Preference";
+            title = "Add New User";
             label = "Add";
             msg = null;
             isDisabled = false;
@@ -131,7 +167,7 @@ class UsersModal extends Component {
             submit = () => this.add();
         }
         else if (mode == "edit") {
-            title = "Edit Preference";
+            title = "Edit User";
             label = "Update";
             msg = null;
             isDisabled = false;
@@ -139,12 +175,20 @@ class UsersModal extends Component {
             submit = () => this.update();
         }
         else if (mode == "delete") {
-            title = "Delete Preference";
+            title = "Delete User";
             label = "Delete";
-            msg = "Are you sure you want to delete this preference?"
+            msg = "Are you sure you want to delete this user?"
             isDisabled = true;
             btnStyle = "btn btn-danger"
             submit = () => this.delete();
+        }
+
+        let rolesChoices = []
+        if(this.props.roles != null){
+            rolesChoices.push(<option value='' key={0}>Select one...</option>)
+            for(var i = 0; i < this.props.roles.length; i++){
+                rolesChoices.push(<option key={this.props.roles[i].id} value={this.props.roles[i].role_id}>{this.props.roles[i].role_id}</option>)
+            }
         }
 
         return (
@@ -170,20 +214,38 @@ class UsersModal extends Component {
                                     </div> : null
                                 }
                                 <div>
-                                    <label>Display Name <span className="text-danger">*</span></label>
+                                    <label>First Name <span className="text-danger">*</span></label>
                                     <input
+                                        disabled={isDisabled}
+                                        value={this.props.data.first_name}
+                                        className={`form-control d-block w-100 ${this.props.error.first_name ? "border-danger" : ""}`}
+                                        onChange={(e) => this.props.handleChange(e.target.value, "first_name")} />
+                                </div>
+                                <div className="mt-3">
+                                    <label>Last Name <span className="text-danger">*</span></label>
+                                    <input
+                                        disabled={isDisabled}
+                                        value={this.props.data.last_name}
+                                        className={`form-control d-block w-100 ${this.props.error.last_name ? "border-danger" : ""}`}
+                                        onChange={(e) => this.props.handleChange(e.target.value, "last_name")} />
+                                </div>
+                                <div className="mt-3">
+                                    <label>Email <span className="text-danger">*</span></label>
+                                    <input
+                                        disabled={isDisabled}
+                                        value={this.props.data.email}
+                                        className={`form-control d-block w-100 ${this.props.error.email ? "border-danger" : ""}`}
+                                        onChange={(e) => this.props.handleChange(e.target.value, "email")} />
+                                </div>
+                                <div className="mt-3">
+                                    <label>Role <span className="text-danger">*</span></label>
+                                    <select
                                         disabled={isDisabled}
                                         value={this.props.data.role_id}
                                         className={`form-control d-block w-100 ${this.props.error.role_id ? "border-danger" : ""}`}
-                                        onChange={(e) => this.props.handleChange(e.target.role_id, "name")} />
-                                </div>
-                                <div className="mt-3">
-                                    <label>Role Description <span className="text-danger">*</span></label>
-                                    <input
-                                        disabled={isDisabled}
-                                        value={this.props.data.role_desc}
-                                        className={`form-control d-block w-100 ${this.props.error.role_desc ? "border-danger" : ""}`}
-                                        onChange={(e) => this.props.handleChange(e.target.value, "role_desc")} />
+                                        onChange={(e) => this.props.handleChange(e.target.value, "role_id")}>
+                                        {rolesChoices}
+                                    </select>
                                 </div>
                             </div>
                             <div className="modal-footer">
@@ -198,8 +260,12 @@ class UsersModal extends Component {
     }
 }
 
-function mapDispatchToProps(dispatch) {
-    return bindActionCreators({ setUsers }, dispatch);
+function mapStateToProps(state) {
+    return { roles: state.roles };
 }
 
-export default connect(null, mapDispatchToProps)(UsersModal);
+function mapDispatchToProps(dispatch) {
+    return bindActionCreators({ setUsers, setRoles }, dispatch);
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(UsersModal);

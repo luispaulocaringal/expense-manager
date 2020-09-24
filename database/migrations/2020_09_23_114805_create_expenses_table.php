@@ -17,7 +17,7 @@ class CreateExpensesTable extends Migration
             $table->increments('id');
             $table->string('user_id');
             $table->string('expenses_category_id');
-            $table->string('amount');
+            $table->integer('amount');
             $table->date('entry_date');
             $table->string('chart_color');
             $table->date('created_at');

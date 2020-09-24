@@ -110,7 +110,7 @@ class UserController extends Controller
 
     private function authenticate(Request $request)
     {
-        $user = User::where('email', $request->email)->get()->first();
+        $user = User::join('roles','roles.role_id','=','users.role_id')->where('email', $request->email)->get()->first();
         if ($user && \Hash::check($request->password, $user->password)){
             $token = self::getToken($request->email, $request->password);
             $user->auth_token = $token;
@@ -150,5 +150,109 @@ class UserController extends Controller
     {
         $user = User::Auth();
         return $user;
+    }
+
+    public function addUsers(Request $request){
+        $user = User::Auth();
+        if($user->role_id=="administrator"){
+            $users = new User;
+            $users->first_name = $request->first_name;
+            $users->last_name = $request->last_name;
+            $users->email = $request->email;
+            $users->role_id = $request->role_id;
+            $users->password = bcrypt('password');
+            $users->save();
+            $response = [
+                'success'=>true, 
+                'data'=>[
+                    'first_name'=> $users->first_name,
+                    'last_name'=> $users->last_name,
+                    'email'=> $users->entry_date,
+                    'role_id'=> $users->role_id,
+                ]
+            ];
+        }
+        else if($user->role_id!="administrator"){
+            $response = ['success'=>false, 'data'=>'You are not authorized to access this data'];
+        }
+        return $response;
+    }
+
+    public function getUsers(){
+        $user = User::Auth();      
+        if($user->role_id=="administrator"){
+            $users = User::All();
+            $response = [
+                'success' => true,
+                'data' => $users
+            ];
+        }
+        else if($user->role_id!="administrator"){
+            $response = ['success'=>false, 'data'=>'You are not authorized to access this data'];
+        }
+        return $response; 
+    }
+
+    public function updateUsers(Request $request){
+        $user = User::Auth();
+        if($user->role_id=="administrator"){
+            $id = $request->input('usersid');
+            $users = User::findOrFail($id);
+            $users->first_name = $request->first_name;
+            $users->last_name = $request->last_name;
+            $users->email = $request->email;
+            $users->role_id = $request->role_id;
+            $users->save();
+            $response = [
+                'success'=>true, 
+                'data'=>[
+                    'first_name'=> $users->first_name,
+                    'last_name'=> $users->last_name,
+                    'email'=> $users->entry_date,
+                    'role_id'=> $users->role_id,
+                ]
+            ];
+        }
+        else if($user->role_id!="administrator"){
+            $response = ['success'=>false, 'data'=>'You are not authorized to access this data'];
+        }
+        return $response; 
+    }
+
+    public function deleteUsers(Request $request){
+        $user = User::Auth();
+        if($user->role_id=="administrator"){
+            $id = $request->input('usersid');
+            $users = User::findOrFail($id);
+            $users->delete();
+            $response = [
+                'success'=>true, 
+                'message'=>"The Category has been deleted"
+            ];
+        }
+        else if($user->role_id!="administrator"){
+            $response = ['success'=>false, 'data'=>'You are not authorized to access this data'];
+        }
+        return $response; 
+    }
+
+    public function changePassword(Request $request){
+        $user = User::Auth();
+        if(\Hash::check($request->current_password, $user->password)){
+            $users = User::findOrFail($user->id);
+            $users->password = bcrypt($request->new_password);
+            $users->save();
+            $response = [
+                'success'=>true, 
+                'message'=>"Password has been changed"
+            ];
+        }
+        else{
+            $response = [
+                'success'=>false, 
+                'message'=>"Password is incorrect"
+            ];
+        }
+        return $response; 
     }
 }
