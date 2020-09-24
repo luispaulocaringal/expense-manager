@@ -1,6 +1,4 @@
 import React, { Component } from 'react';
-import {PieChart} from 'react-minimal-pie-chart';
-import ReactTable from 'react-table';
 import Axios from 'axios';
 import { setExpenses } from '../actions';
 import { bindActionCreators } from 'redux';
@@ -53,8 +51,10 @@ class Home extends Component {
         console.log(r)
         if (r.success) {
             this.setState({ msg: "Password changed succesfully"})
+            this.handleChange("", "current_password")
+            this.handleChange("", "new_password")
         } else {
-            this.setState({ msg: r.data, style: "alert-danger" })
+            this.setState({ msg: r.message, style: "alert-danger" })
             this.handleChange("", "current_password")
             this.handleChange("", "new_password")
         }
@@ -87,7 +87,7 @@ class Home extends Component {
                             <div className='col-md-12'>
                                 <div className="mt-2">
                                     <input type="submit" className="btn btn-primary text-white" value="Submit" />
-                                </div>
+                                </div><br/>
                                 {this.state.msg}
                             </div>
                         </div>

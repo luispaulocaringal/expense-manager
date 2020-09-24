@@ -79907,17 +79907,14 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var react_minimal_pie_chart__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react-minimal-pie-chart */ "./node_modules/react-minimal-pie-chart/dist/index.js");
-/* harmony import */ var react_minimal_pie_chart__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(react_minimal_pie_chart__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var react_table__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react-table */ "./node_modules/react-table/es/index.js");
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_4__);
-/* harmony import */ var _actions__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../actions */ "./resources/js/src/actions/index.js");
-/* harmony import */ var redux__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! redux */ "./node_modules/redux/es/redux.js");
-/* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
-/* harmony import */ var _config__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../config */ "./resources/js/src/config.js");
-/* harmony import */ var react_table_react_table_css__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! react-table/react-table.css */ "./node_modules/react-table/react-table.css");
-/* harmony import */ var react_table_react_table_css__WEBPACK_IMPORTED_MODULE_9___default = /*#__PURE__*/__webpack_require__.n(react_table_react_table_css__WEBPACK_IMPORTED_MODULE_9__);
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _actions__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../actions */ "./resources/js/src/actions/index.js");
+/* harmony import */ var redux__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! redux */ "./node_modules/redux/es/redux.js");
+/* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
+/* harmony import */ var _config__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../config */ "./resources/js/src/config.js");
+/* harmony import */ var react_table_react_table_css__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! react-table/react-table.css */ "./node_modules/react-table/react-table.css");
+/* harmony import */ var react_table_react_table_css__WEBPACK_IMPORTED_MODULE_7___default = /*#__PURE__*/__webpack_require__.n(react_table_react_table_css__WEBPACK_IMPORTED_MODULE_7__);
 
 
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
@@ -79945,8 +79942,6 @@ function _assertThisInitialized(self) { if (self === void 0) { throw new Referen
 function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
 
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
-
-
 
 
 
@@ -80010,7 +80005,7 @@ var Home = /*#__PURE__*/function (_Component) {
                   }
                 };
                 _context.next = 4;
-                return axios__WEBPACK_IMPORTED_MODULE_4___default.a.post("".concat(_config__WEBPACK_IMPORTED_MODULE_8__["EXPENSE_MANAGER_API_URL"], "/api/user/changePassword"), {
+                return axios__WEBPACK_IMPORTED_MODULE_2___default.a.post("".concat(_config__WEBPACK_IMPORTED_MODULE_6__["EXPENSE_MANAGER_API_URL"], "/api/user/changePassword"), {
                   'current_password': this.state.user.current_password,
                   'new_password': this.state.user.new_password
                 }, JWT_AUTHORIZATION).then(function (r) {
@@ -80030,9 +80025,11 @@ var Home = /*#__PURE__*/function (_Component) {
                   this.setState({
                     msg: "Password changed succesfully"
                   });
+                  this.handleChange("", "current_password");
+                  this.handleChange("", "new_password");
                 } else {
                   this.setState({
-                    msg: r.data,
+                    msg: r.message,
                     style: "alert-danger"
                   });
                   this.handleChange("", "current_password");
@@ -80114,7 +80111,7 @@ var Home = /*#__PURE__*/function (_Component) {
         type: "submit",
         className: "btn btn-primary text-white",
         value: "Submit"
-      })), this.state.msg)))));
+      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("br", null), this.state.msg)))));
     }
   }]);
 
@@ -80128,12 +80125,12 @@ function mapStateToProps(state) {
 }
 
 function mapDispatchToProps(dispatch) {
-  return Object(redux__WEBPACK_IMPORTED_MODULE_6__["bindActionCreators"])({
-    setExpenses: _actions__WEBPACK_IMPORTED_MODULE_5__["setExpenses"]
+  return Object(redux__WEBPACK_IMPORTED_MODULE_4__["bindActionCreators"])({
+    setExpenses: _actions__WEBPACK_IMPORTED_MODULE_3__["setExpenses"]
   }, dispatch);
 }
 
-/* harmony default export */ __webpack_exports__["default"] = (Object(react_redux__WEBPACK_IMPORTED_MODULE_7__["connect"])(mapStateToProps, mapDispatchToProps)(Home));
+/* harmony default export */ __webpack_exports__["default"] = (Object(react_redux__WEBPACK_IMPORTED_MODULE_5__["connect"])(mapStateToProps, mapDispatchToProps)(Home));
 
 /***/ }),
 
@@ -80874,39 +80871,16 @@ var Home = /*#__PURE__*/function (_Component) {
   }, {
     key: "render",
     value: function render() {
-      console.log(this.props.expenses);
-      var expenses = {};
+      var expenses = [];
 
       if (this.props.expenses != null) {
-        for (var i = 0; i < this.props.expenses.length; i++) {// data.push({
-          //     title:this.props.expenses[i].expenses_category_name,
-          //     value:parseInt(this.props.expenses[i].amount),
-          //     color:this.props.expenses[i].chart_color
-          // })
-          // if(!this.props.expenses[i].expenses_category_name in expenses){
-          //     this.props.expenses[i].expenses_category_name].push(this.props.expenses[i].amount)
-          // }
-          // else{
-          //     expenses[this.props.expenses[i].expenses_category_name].push(this.props.expenses[i].amount)
-          // }
-        } //     if(!expenses.includes(this.props.expenses[i].expenses_category_name)){
-        //         expenses.push({
-        //             title:this.props.expenses[i].expenses_category_name,
-        //             value:parseInt(this.props.expenses[i].amount),
-        //             color:this.props.expenses[i].chart_color
-        //         })
-        //     }
-        //     else{
-        //         expenses.title[this.props.expenses[i].expenses_category_name].push({
-        //             title:this.props.expenses[i].expenses_category_name,
-        //             value:parseInt(this.props.expenses[i].amount),
-        //             color:this.props.expenses[i].chart_color
-        //         })
-        //     }
-        // }
-
-
-        console.log(expenses);
+        for (var i = 0; i < this.props.expenses.length; i++) {
+          expenses.push({
+            title: this.props.expenses[i].expenses_category_name,
+            value: parseInt(this.props.expenses[i].amount),
+            color: this.props.expenses[i].chart_color
+          });
+        }
       }
 
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
@@ -80943,6 +80917,7 @@ var Home = /*#__PURE__*/function (_Component) {
         className: "col-md-12"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(react_table__WEBPACK_IMPORTED_MODULE_3__["default"], {
         className: "shadow rounded",
+        data: this.props.expenses,
         columns: [{
           Header: 'Expense Categories',
           accessor: 'expenses_category_name',
@@ -80961,6 +80936,7 @@ var Home = /*#__PURE__*/function (_Component) {
         className: "col-md-6 graph-container justify-content-center"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(react_minimal_pie_chart__WEBPACK_IMPORTED_MODULE_2__["PieChart"], {
         className: "px-5 mx-auto",
+        data: expenses,
         animate: true,
         animationDuration: 500,
         animationEasing: "ease-out",

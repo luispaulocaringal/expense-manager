@@ -250,7 +250,7 @@ class UserController extends Controller
         else{
             $response = [
                 'success'=>false, 
-                'message'=>"Password is incorrect"
+                'message'=>"Current password is incorrect"
             ];
         }
         return $response; 
